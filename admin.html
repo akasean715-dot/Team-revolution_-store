@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revolution Admin — Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="topbar"><a href="index.html" class="brand"><span class="mark">R</span><span><b>THE REVOLUTION</b><small>STORE ADMIN</small></span></a><div class="top-actions"><a href="index.html">VIEW STORE ↗</a><button id="logoutBtn" hidden>LOG OUT</button></div></header>
+<main>
+<section id="loginView" class="login-view"><div class="login-card"><div class="eyebrow">PRIVATE AREA</div><h1>STORE<br><em>CONTROL.</em></h1><p>Sign in with the Firebase admin account to manage products and stock.</p><form id="loginForm"><input id="adminEmail" type="email" placeholder="ADMIN EMAIL" required><input id="adminPassword" type="password" placeholder="PASSWORD" required><button type="submit">SIGN IN ↗</button><div id="loginError" class="error"></div></form></div></section>
+<section id="dashboard" hidden>
+<div class="dash-head"><div><div class="eyebrow">THE REVOLUTION / ADMIN</div><h1>PRODUCTS.</h1></div><button id="addProductBtn" class="primary">+ ADD PRODUCT</button></div>
+<div class="stats"><div><span>PRODUCTS</span><b id="productCount">0</b></div><div><span>ACTIVE STOCK</span><b id="stockCount">0</b></div><div><span>LOW STOCK</span><b id="lowStockCount">0</b></div><div><span>ORDERS</span><b>—</b></div></div>
+<div class="section-title"><h2>CATALOG</h2><span id="saveStatus"></span></div>
+<div id="productList" class="product-list"></div>
+</section>
+</main>
+<div id="productModal" class="modal" hidden><div class="modal-card"><button id="closeModal" class="close">×</button><div class="eyebrow">NEW MERCH</div><h2>ADD PRODUCT.</h2><form id="productForm"><div class="upload"><input id="imageFile" type="file" accept="image/*"><div id="imagePreview">UPLOAD PRODUCT IMAGE</div></div><label>PRODUCT NAME<input name="name" required placeholder="REVOLUTION FIGHT TEE"></label><label>DESCRIPTION<textarea name="description" placeholder="Short product description"></textarea></label><div class="grid2"><label>PRICE (₹)<input name="price" type="number" min="0" step="1" required></label><label>STOCK<input name="stock" type="number" min="0" step="1" required></label></div><div class="grid2"><label>CATEGORY<select name="category"><option value="tees">TEES</option><option value="shorts">SHORTS</option><option value="hoodies">HOODIES</option><option value="gear">GEAR</option></select></label><label>TYPE<select name="type"><option value="tee">TEE</option><option value="shorts">SHORTS</option><option value="hoodie">HOODIE</option><option value="gloves">GLOVES / GEAR</option></select></label></div><label>SIZES <input name="sizes" placeholder="S, M, L, XL"></label><label>BADGE <input name="tag" placeholder="NEW / LIMITED / MEMBER"></label><button class="save" type="submit">UPLOAD & SAVE PRODUCT ↗</button><div id="formError" class="error"></div></form></div></div>
+<script type="module" src="admin.js"></script>
+</body></html>

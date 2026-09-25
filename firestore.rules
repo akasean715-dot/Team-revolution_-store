@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() {
+      return signedIn() &&
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.admin == true;
+    }
+
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if admin();
+    }
+
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update, delete: if admin();
+    }
+
+    match /newsletter/{emailId} {
+      allow create: if true;
+      allow read, update, delete: if admin();
+    }
+  }
+}
