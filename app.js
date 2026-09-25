@@ -1,9 +1,6 @@
-/* Revolution Store: unregister stale service workers */
-if ("serviceWorker" in navigator) { navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {}); }
-
 import { db, auth } from "./firebase.js";
 import {
-  collection, getDocs, query, where, orderBy,
+  collection, getDocs,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import {
   onAuthStateChanged, signInWithEmailAndPassword, signOut,
@@ -133,13 +130,15 @@ function renderCart() {
 async function loadProducts() {
   const node = $("#products");
   try {
-    const productQuery = query(
-      collection(db, "products"),
-      where("active", "==", true),
-      orderBy("createdAt", "desc")
-    );
-    const snapshot = await getDocs(productQuery);
-    products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const snapshot = await getDocs(collection(db, "products"));
+    products = snapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((product) => product.active !== false)
+      .sort((a, b) => {
+        const aTime = a.createdAt?.toMillis?.() ?? 0;
+        const bTime = b.createdAt?.toMillis?.() ?? 0;
+        return bTime - aTime;
+      });
   } catch (error) {
     console.error(error);
     products = [];
