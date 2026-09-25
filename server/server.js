@@ -237,8 +237,8 @@ app.get("/api/product-image", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(
-    `MEGA upload server running on http://localhost:${PORT}`
+    `MEGA upload server running on port ${PORT}`
   );
 });
