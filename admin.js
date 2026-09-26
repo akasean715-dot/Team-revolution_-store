@@ -3,7 +3,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https:/
 import { collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const $ = (s) => document.querySelector(s);
-const MEGA_API_BASE = "http://localhost:3000";
+const MEGA_API_BASE = "https://team-revolution-store.onrender.com";
 let currentUser = null;
 
 async function isAdmin(user) {
