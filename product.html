@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Product | The Revolution</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./product.css" />
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="pdp-header">
+
+    <a href="./index.html" class="pdp-logo">
+      <span class="pdp-logo-mark">R</span>
+
+      <span class="pdp-logo-text">
+        <strong>THE REVOLUTION</strong>
+        <small>MMA · FITNESS · SHILLONG</small>
+      </span>
+    </a>
+
+    <nav class="pdp-nav">
+      <a href="./index.html">TRAINING</a>
+      <a href="./index.html#shop">SHOP</a>
+      <a href="./index.html#team">TEAM</a>
+      <a href="./index.html#events">EVENTS</a>
+      <a href="./index.html#contact">CONTACT</a>
+    </nav>
+
+    <div class="pdp-actions">
+
+      <button
+        type="button"
+        class="pdp-icon"
+        aria-label="Search"
+      >
+        ⌕
+      </button>
+
+      <button
+        type="button"
+        class="pdp-icon"
+        aria-label="Account"
+      >
+        ♙
+      </button>
+
+      <button
+        type="button"
+        class="pdp-icon bag-button"
+        aria-label="Shopping bag"
+      >
+        ♧
+        <span id="bagCount">0</span>
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="pdp-main">
+
+    <!-- BREADCRUMB -->
+
+    <div class="pdp-breadcrumb">
+      <a href="./index.html">Home</a>
+      <span>/</span>
+      <a href="./index.html#shop">Shop</a>
+      <span>/</span>
+      <span id="breadcrumbProduct">Product</span>
+    </div>
+
+
+    <!-- ================= PRODUCT ================= -->
+
+    <section class="pdp-product">
+
+      <!-- LEFT / GALLERY -->
+
+      <div class="pdp-gallery">
+
+        <div
+          class="pdp-thumbnails"
+          id="productThumbnails"
+        ></div>
+
+        <div class="pdp-main-image">
+
+          <img
+            id="mainProductImage"
+            src=""
+            alt="Product"
+          />
+
+          <button
+            type="button"
+            class="gallery-arrow gallery-prev"
+            id="galleryPrev"
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="gallery-arrow gallery-next"
+            id="galleryNext"
+            aria-label="Next image"
+          >
+            ›
+          </button>
+
+          <button
+            type="button"
+            class="fullscreen-button"
+            id="fullscreenButton"
+            aria-label="View image fullscreen"
+          >
+            ⛶
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT / PRODUCT INFORMATION -->
+
+      <div class="pdp-information">
+
+        <div
+          class="pdp-badge"
+          id="productBadge"
+        >
+          NEW
+        </div>
+
+        <h1 id="productName">
+          Loading...
+        </h1>
+
+        <div
+          class="pdp-price"
+          id="productPrice"
+        >
+          ₹0
+        </div>
+
+
+        <!-- RATING -->
+
+        <div class="pdp-rating">
+
+          <span class="stars">
+            ★★★★★
+          </span>
+
+          <span id="ratingValue">
+            (5.0)
+          </span>
+
+          <span id="reviewCount">
+            0 reviews
+          </span>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <p
+          class="pdp-description"
+          id="productDescription"
+        >
+          Loading product information...
+        </p>
+
+
+        <!-- SIZE -->
+
+        <div
+          class="pdp-option"
+          id="sizeSection"
+        >
+
+          <div class="option-title">
+            SIZE
+          </div>
+
+          <div
+            class="size-options"
+            id="sizeOptions"
+          ></div>
+
+        </div>
+
+
+        <!-- QUANTITY -->
+
+        <div class="pdp-option">
+
+          <div class="option-title">
+            QUANTITY
+          </div>
+
+          <div class="quantity-control">
+
+            <button
+              type="button"
+              id="quantityMinus"
+            >
+              −
+            </button>
+
+            <span id="quantityValue">
+              1
+            </span>
+
+            <button
+              type="button"
+              id="quantityPlus"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="pdp-actions-row">
+
+          <button
+            type="button"
+            class="add-to-bag"
+            id="addToBag"
+          >
+            <span>ADD TO BAG</span>
+            <span>→</span>
+          </button>
+
+          <button
+            type="button"
+            class="wishlist-button"
+            id="wishlistButton"
+            aria-label="Add to wishlist"
+          >
+            ♡
+          </button>
+
+        </div>
+
+
+        <!-- SERVICE FEATURES -->
+
+        <div class="pdp-features">
+
+          <div class="pdp-feature">
+            <span>♧</span>
+            <small>Secure Checkout</small>
+          </div>
+
+          <div class="pdp-feature">
+            <span>▣</span>
+            <small>Fast Delivery</small>
+          </div>
+
+          <div class="pdp-feature">
+            <span>↻</span>
+            <small>Easy Returns</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= DETAILS ================= -->
+
+    <section class="pdp-lower">
+
+      <div class="pdp-details">
+
+        <div class="pdp-tabs">
+
+          <button
+            class="pdp-tab active"
+            data-tab="details"
+          >
+            PRODUCT DETAILS
+          </button>
+
+          <button
+            class="pdp-tab"
+            data-tab="fit"
+          >
+            SIZE & FIT
+          </button>
+
+          <button
+            class="pdp-tab"
+            data-tab="shipping"
+          >
+            SHIPPING
+          </button>
+
+          <button
+            class="pdp-tab"
+            data-tab="reviews"
+          >
+            REVIEWS
+          </button>
+
+        </div>
+
+
+        <!-- DETAILS -->
+
+        <div
+          class="pdp-tab-content active"
+          id="tab-details"
+        >
+
+          <div class="detail-grid">
+
+            <div class="detail-item">
+              <strong>Type</strong>
+              <span id="detailType">T-Shirt</span>
+            </div>
+
+            <div class="detail-item">
+              <strong>Sizes</strong>
+              <span id="detailSizes">S, M, L, XL</span>
+            </div>
+
+            <div class="detail-item">
+              <strong>Stock</strong>
+              <span id="detailStock">In Stock</span>
+            </div>
+
+            <div class="detail-item">
+              <strong>Category</strong>
+              <span id="detailCategory">TEE</span>
+            </div>
+
+          </div>
+
+          <div class="feature-list">
+
+            <div>
+              <span>✣</span>
+              <p>Breathable fabric</p>
+            </div>
+
+            <div>
+              <span>◈</span>
+              <p>Lightweight</p>
+            </div>
+
+            <div>
+              <span>◉</span>
+              <p>Quick dry</p>
+            </div>
+
+            <div>
+              <span>◉</span>
+              <p>Perfect for training & casual wear</p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- SIZE & FIT -->
+
+        <div
+          class="pdp-tab-content"
+          id="tab-fit"
+        >
+
+          <h3>SIZE & FIT</h3>
+
+          <p>
+            Designed for training, movement and everyday wear.
+            Choose your usual size for a standard fit.
+          </p>
+
+        </div>
+
+
+        <!-- SHIPPING -->
+
+        <div
+          class="pdp-tab-content"
+          id="tab-shipping"
+        >
+
+          <h3>SHIPPING</h3>
+
+          <p>
+            Orders are carefully packed and prepared for dispatch.
+            Delivery times may vary depending on your location.
+          </p>
+
+        </div>
+
+
+        <!-- REVIEWS -->
+
+        <div
+          class="pdp-tab-content"
+          id="tab-reviews"
+        >
+
+          <h3>REVIEWS</h3>
+
+          <p id="reviewsMessage">
+            No reviews yet.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= RELATED PRODUCTS ================= -->
+
+      <aside class="related-products">
+
+        <div class="related-header">
+
+          <h2>
+            YOU MAY ALSO LIKE
+          </h2>
+
+          <div class="related-arrows">
+            <button id="relatedPrev">‹</button>
+            <button id="relatedNext">›</button>
+          </div>
+
+        </div>
+
+        <div
+          class="related-grid"
+          id="relatedProducts"
+        ></div>
+
+      </aside>
+
+    </section>
+
+
+    <!-- ================= BRAND BANNER ================= -->
+
+    <section class="pdp-brand-banner">
+
+      <div class="brand-banner-content">
+
+        <h2>
+          TRAIN HARDER.<br />
+          BE STRONGER.
+        </h2>
+
+        <span></span>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= TOAST ================= -->
+
+  <div
+    class="pdp-toast"
+    id="pdpToast"
+  >
+    ADDED TO BAG
+  </div>
+
+
+  <!-- ================= SCRIPT ================= -->
+
+  <script type="module" src="./product.js"></script>
+
+</body>
+</html>

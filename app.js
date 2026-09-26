@@ -47,12 +47,16 @@ function renderFilters() {
 function renderProducts() {
   const node = $("#products");
   if (!node) return;
+
   const visible = activeCategory === "all"
     ? products
     : products.filter((product) => product.category === activeCategory);
 
   if (!visible.length) {
-    node.innerHTML = `<div class="empty-products">PRODUCTS COMING SOON.<br><small>The shop will populate automatically when products are added in the admin dashboard.</small></div>`;
+    node.innerHTML = `<div class="empty-products">
+      PRODUCTS COMING SOON.<br>
+      <small>The shop will populate automatically when products are added in the admin dashboard.</small>
+    </div>`;
     return;
   }
 
@@ -60,29 +64,69 @@ function renderProducts() {
     const imageStyle = product.imageUrl
       ? `style="background-image:url('${String(product.imageUrl).replace(/'/g, "%27")}');background-size:cover;background-position:center"`
       : "";
+
     const typeClass = product.type || product.category || "tee";
-    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+
+    const sizes = Array.isArray(product.sizes)
+      ? product.sizes
+      : [];
+
     const sizeControl = sizes.length
-      ? `<select class="size-select" data-size-for="${product.id}"><option value="">SIZE</option>${sizes.map((size) => `<option value="${size}">${size}</option>`).join("")}</select>`
+      ? `<select class="size-select" data-size-for="${product.id}">
+          <option value="">SIZE</option>
+          ${sizes.map((size) => `<option value="${size}">${size}</option>`).join("")}
+        </select>`
       : "";
 
-    return `<article class="product-card">
+    return `<article class="product-card" data-product-id="${product.id}">
       <div class="product-image ${typeClass}" ${imageStyle}>
         ${product.tag ? `<span class="tag">${product.tag}</span>` : ""}
       </div>
+
       <div class="product-info">
         <h3>${product.name || "REVOLUTION PRODUCT"}</h3>
+
         <p>${product.description || "Official Revolution MMA & Fitness merchandise."}</p>
+
         <div class="product-meta">
           <b class="price">${money(product.price)}</b>
-          <div class="product-actions">${sizeControl}<button class="add" data-id="${product.id}">ADD +</button></div>
+
+          <div class="product-actions">
+            ${sizeControl}
+            <button class="add" data-id="${product.id}">ADD +</button>
+          </div>
         </div>
       </div>
     </article>`;
   }).join("");
 
+  // ADD TO CART
   node.querySelectorAll(".add").forEach((button) => {
-    button.addEventListener("click", () => addToCart(button.dataset.id));
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      addToCart(button.dataset.id);
+    });
+  });
+
+  // OPEN PRODUCT DETAIL PAGE
+  node.querySelectorAll(".product-card").forEach((card) => {
+    card.addEventListener("click", (event) => {
+      // Don't open PDP when using size selector
+      // or clicking ADD TO CART
+      if (
+        event.target.closest(".add") ||
+        event.target.closest(".size-select")
+      ) {
+        return;
+      }
+
+      const productId = card.dataset.productId;
+
+      if (!productId) return;
+
+      window.location.href =
+        `product.html?id=${encodeURIComponent(productId)}`;
+    });
   });
 }
 
