@@ -1,9 +1,14 @@
 import { db, auth } from "./firebase.js";
 import {
-  collection, getDocs,
+  collection,
+  getDocs,
+  addDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import {
-  onAuthStateChanged, signInWithEmailAndPassword, signOut,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 const $ = (selector) => document.querySelector(selector);
@@ -11,6 +16,11 @@ const money = (value) => `₹${Number(value || 0).toLocaleString("en-IN")}`;
 let products = [];
 let activeCategory = "all";
 let cart = JSON.parse(localStorage.getItem("revolution-cart") || "[]");
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+});
 
 function saveCart() {
   localStorage.setItem("revolution-cart", JSON.stringify(cart));
@@ -204,35 +214,109 @@ function setupCart() {
   };
   $("#closeCart")?.addEventListener("click", closeCart);
   $("#overlay")?.addEventListener("click", closeCart);
-  $("#checkout")?.addEventListener("click", () => toast("PAYMENT CHECKOUT WILL BE CONNECTED NEXT"));
+  $("#checkout")?.addEventListener("click", async () => {
+
+  if (!cart.length) {
+    toast("YOUR BAG IS EMPTY");
+    return;
+  }
+
+  if (!currentUser) {
+    toast("PLEASE SIGN IN BEFORE CHECKOUT");
+    window.setTimeout(() => {
+      window.location.href = "account.html";
+    }, 900);
+    return;
+  }
+
+  const checkoutButton = $("#checkout");
+
+  if (checkoutButton) {
+    checkoutButton.disabled = true;
+    checkoutButton.textContent = "CREATING ORDER...";
+  }
+
+  try {
+
+    const total = cart.reduce(
+      (sum, item) =>
+        sum +
+        Number(item.price || 0) *
+        Number(item.qty || 0),
+      0
+    );
+
+    const orderItems = cart.map((item) => ({
+      productId: item.id,
+      name: item.name,
+      price: Number(item.price || 0),
+      quantity: Number(item.qty || 1),
+      size: item.size || ""
+    }));
+
+    const orderNumber =
+      `REV-${Date.now().toString().slice(-8)}`;
+
+    await addDoc(
+      collection(db, "orders"),
+      {
+        userId: currentUser.uid,
+        userEmail: currentUser.email || "",
+
+        orderNumber,
+
+        items: orderItems,
+
+        total,
+
+        status: "PROCESSING",
+
+        createdAt: serverTimestamp()
+      }
+    );
+
+    cart = [];
+
+    localStorage.removeItem("revolution-cart");
+
+    renderCart();
+
+    $("#cartPanel")?.classList.remove("open");
+    $("#overlay")?.classList.remove("open");
+
+    toast("ORDER PLACED SUCCESSFULLY");
+
+    window.setTimeout(() => {
+      window.location.href = "orders.html";
+    }, 1200);
+
+  } catch (error) {
+
+    console.error(
+      "CREATE ORDER ERROR:",
+      error
+    );
+
+    toast(
+      "COULD NOT CREATE ORDER. PLEASE TRY AGAIN."
+    );
+
+  } finally {
+
+    if (checkoutButton) {
+      checkoutButton.disabled = false;
+      checkoutButton.textContent =
+        "SECURE CHECKOUT ↗";
+    }
+
+  }
+
+});
 }
 
 function setupMemberAuth() {
-  const modal = $("#memberModal");
-  const email = $("#memberEmail");
-  const password = $("#memberPassword");
-  const status = $("#memberStatus");
-  $("#memberBtn")?.addEventListener("click", () => modal?.classList.add("open"));
-  $(".modal-close")?.addEventListener("click", () => modal?.classList.remove("open"));
-
-  $("#memberSignIn")?.addEventListener("click", async () => {
-    if (!email?.value || !password?.value) {
-      if (status) status.textContent = "ENTER EMAIL AND PASSWORD.";
-      return;
-    }
-    try {
-      await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
-      if (status) status.textContent = "SIGNED IN — WELCOME BACK.";
-    } catch (error) {
-      if (status) status.textContent = error.code === "auth/invalid-credential"
-        ? "EMAIL OR PASSWORD IS INCORRECT."
-        : error.message.toUpperCase();
-    }
-  });
-
-  onAuthStateChanged(auth, (user) => {
-    if (!status) return;
-    if (user) status.textContent = `SIGNED IN AS ${user.email}`;
+  $("#memberBtn")?.addEventListener("click", () => {
+    window.location.href = "account.html";
   });
 }
 

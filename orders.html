@@ -1,0 +1,213 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>My Orders | The Revolution</title>
+
+<meta
+name="description"
+content="View your Revolution MMA & Fitness orders."
+
+>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Main account styles -->
+
+  <link rel="stylesheet" href="account.css">
+
+  <!-- Orders page styles -->
+
+  <link rel="stylesheet" href="orders.css">
+</head>
+
+<body>
+
+  <!-- BACKGROUND NOISE -->
+
+  <div class="account-noise"></div>
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="account-header">
+
+```
+<a href="index.html" class="account-logo">
+
+  <span class="account-logo-box">
+    R
+  </span>
+
+  <span class="account-logo-text">
+    <b>THE REVOLUTION</b>
+    <small>MMA & FITNESS · SHILLONG</small>
+  </span>
+
+</a>
+
+
+<a href="account.html" class="back-store">
+  ← BACK TO ACCOUNT
+</a>
+```
+
+  </header>
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="account-main">
+
+```
+<section class="account-card orders-page-card">
+
+
+  <!-- =================================================
+       LEFT SIDE
+  ================================================== -->
+
+  <div class="account-intro orders-intro">
+
+    <div class="section-label">
+      ORDER HISTORY
+    </div>
+
+    <h1>
+      YOUR<br>
+      <em>ORDERS.</em>
+    </h1>
+
+    <p>
+      Keep track of your Revolution gear,
+      purchases and order status.
+    </p>
+
+    <div class="account-line"></div>
+
+
+    <div class="account-note">
+
+      <span>01</span>
+
+      <p>
+        ORDER HISTORY<br>
+
+        <small>
+          View your previous Revolution purchases.
+        </small>
+      </p>
+
+    </div>
+
+
+    <div class="account-note">
+
+      <span>02</span>
+
+      <p>
+        ORDER STATUS<br>
+
+        <small>
+          Track the progress of your orders.
+        </small>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       RIGHT SIDE
+  ================================================== -->
+
+  <div class="account-panel orders-panel">
+
+    <div class="account-eyebrow">
+      MEMBER ORDERS
+    </div>
+
+    <h2>
+      MY <em>ORDERS.</em>
+    </h2>
+
+    <p
+      id="ordersDescription"
+      class="account-description"
+    >
+      Loading your orders...
+    </p>
+
+
+    <!-- =================================================
+         ORDERS STATUS
+    ================================================== -->
+
+    <div
+      id="ordersStatus"
+      class="orders-status"
+      aria-live="polite"
+    ></div>
+
+
+    <!-- =================================================
+         ORDERS LIST
+
+         orders.js fills this automatically.
+    ================================================== -->
+
+    <div
+      id="ordersList"
+      class="orders-list"
+    ></div>
+
+  </div>
+
+</section>
+```
+
+  </main>
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer class="account-footer">
+
+```
+<span>
+  © 2026 THE REVOLUTION MMA & FITNESS
+</span>
+
+<span>
+  SHILLONG · INDIA
+</span>
+```
+
+  </footer>
+
+  <!-- =====================================================
+       ORDERS JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="orders.js"
+  ></script>
+
+</body>
+
+</html>

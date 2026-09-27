@@ -1,0 +1,998 @@
+/* =========================================================
+THE REVOLUTION — ACCOUNT PAGE
+========================================================= */
+
+:root {
+--black: #080808;
+--black-soft: #111111;
+--white: #f5f5f2;
+--muted: #8b8b8b;
+--line: rgba(255,255,255,.12);
+--dark-line: rgba(0,0,0,.14);
+}
+
+/* =========================================================
+RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  }
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+min-height: 100vh;
+background: var(--black);
+color: var(--white);
+font-family: "Inter", sans-serif;
+}
+
+button,
+input {
+font: inherit;
+}
+
+button {
+cursor: pointer;
+}
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+/* =========================================================
+NOISE
+========================================================= */
+
+.account-noise {
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 100;
+opacity: .035;
+background-image:
+url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.account-header {
+min-height: 86px;
+padding: 0 5vw;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+border-bottom: 1px solid var(--line);
+background: rgba(8,8,8,.96);
+}
+
+.account-logo {
+display: flex;
+align-items: center;
+gap: 13px;
+}
+
+.account-logo-box {
+width: 42px;
+height: 42px;
+
+display: grid;
+place-items: center;
+
+border: 1px solid rgba(255,255,255,.35);
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: 25px;
+font-weight: 900;
+font-style: italic;
+}
+
+.account-logo-text {
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.account-logo-text b {
+font-family: "Barlow Condensed", sans-serif;
+font-size: 17px;
+font-weight: 800;
+letter-spacing: .04em;
+}
+
+.account-logo-text small {
+color: #686868;
+font-size: 7px;
+letter-spacing: .17em;
+}
+
+.back-store {
+font-size: 10px;
+font-weight: 800;
+letter-spacing: .14em;
+transition: opacity .2s ease;
+}
+
+.back-store:hover {
+opacity: .55;
+}
+
+/* =========================================================
+MAIN
+========================================================= */
+
+.account-main {
+min-height: calc(100vh - 146px);
+
+padding: 70px 5vw;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+background:
+radial-gradient(
+circle at 75% 20%,
+rgba(255,255,255,.045),
+transparent 30%
+);
+}
+
+/* =========================================================
+ACCOUNT CARD
+========================================================= */
+
+.account-card {
+width: min(1180px, 100%);
+
+display: grid;
+grid-template-columns: .9fr 1.1fr;
+
+background: var(--white);
+color: #090909;
+
+box-shadow: 0 35px 100px rgba(0,0,0,.45);
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.account-intro {
+padding: 70px 65px;
+
+background:
+linear-gradient(
+145deg,
+#101010 0%,
+#080808 100%
+);
+
+color: white;
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.section-label,
+.account-eyebrow {
+font-size: 9px;
+font-weight: 800;
+letter-spacing: .2em;
+}
+
+.section-label {
+color: #777;
+}
+
+.account-intro h1 {
+margin: 25px 0 25px;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: clamp(64px, 7vw, 105px);
+line-height: .82;
+font-weight: 900;
+letter-spacing: -.045em;
+}
+
+.account-intro h1 em,
+.account-panel h2 em {
+font-style: italic;
+font-weight: 500;
+-webkit-text-stroke: 1px currentColor;
+color: transparent;
+}
+
+.account-intro > p {
+max-width: 390px;
+
+color: #999;
+font-size: 13px;
+line-height: 1.8;
+}
+
+.account-line {
+width: 100%;
+height: 1px;
+
+margin: 40px 0 25px;
+
+background: rgba(255,255,255,.13);
+}
+
+.account-note {
+display: grid;
+grid-template-columns: 35px 1fr;
+
+padding: 17px 0;
+
+border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.account-note > span {
+color: #777;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: 12px;
+font-weight: 700;
+}
+
+.account-note p {
+margin: 0;
+
+font-size: 10px;
+font-weight: 800;
+letter-spacing: .12em;
+}
+
+.account-note small {
+display: block;
+
+margin-top: 6px;
+
+color: #777;
+
+font-size: 9px;
+font-weight: 500;
+letter-spacing: 0;
+}
+
+/* =========================================================
+ACCOUNT PANEL
+========================================================= */
+
+.account-panel {
+padding: 65px 75px;
+
+min-height: 620px;
+
+display: flex;
+align-items: center;
+}
+
+.account-section {
+width: 100%;
+max-width: 480px;
+}
+
+.account-eyebrow {
+color: #777;
+}
+
+.account-panel h2 {
+margin: 15px 0 10px;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: clamp(55px, 6vw, 82px);
+line-height: .84;
+font-weight: 900;
+letter-spacing: -.04em;
+}
+
+.account-description {
+margin: 0 0 32px;
+
+color: #777;
+
+font-size: 12px;
+line-height: 1.7;
+}
+
+/* =========================================================
+FORM
+========================================================= */
+
+.account-section form {
+display: flex;
+flex-direction: column;
+gap: 18px;
+}
+
+.account-section label {
+display: flex;
+flex-direction: column;
+gap: 8px;
+
+color: #555;
+
+font-size: 9px;
+font-weight: 800;
+letter-spacing: .14em;
+}
+
+.account-section input {
+width: 100%;
+height: 52px;
+
+padding: 0 15px;
+
+border: 0;
+border-bottom: 1px solid #bdbdbd;
+
+outline: none;
+
+background: #ececf0;
+
+color: #090909;
+
+font-size: 13px;
+
+transition:
+border-color .2s ease,
+background .2s ease;
+}
+
+.account-section input:focus {
+border-bottom-color: #000;
+background: #e5e5e8;
+}
+
+.account-section input::placeholder {
+color: #8a8a8a;
+}
+
+/* =========================================================
+SUBMIT
+========================================================= */
+
+.account-submit {
+width: 100%;
+height: 54px;
+
+margin-top: 8px;
+
+border: 0;
+
+background: #080808;
+color: white;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: 14px;
+font-weight: 800;
+letter-spacing: .12em;
+
+transition:
+transform .2s ease,
+background .2s ease;
+}
+
+.account-submit:hover {
+background: #222;
+transform: translateY(-2px);
+}
+
+.account-submit:disabled {
+cursor: wait;
+opacity: .55;
+transform: none;
+}
+
+/* =========================================================
+STATUS
+========================================================= */
+
+.account-status {
+min-height: 18px;
+
+margin-top: 14px;
+
+color: #666;
+
+font-size: 9px;
+font-weight: 700;
+line-height: 1.5;
+letter-spacing: .04em;
+}
+
+/* =========================================================
+SWITCH
+========================================================= */
+
+.account-switch {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 15px;
+
+margin-top: 28px;
+padding-top: 22px;
+
+border-top: 1px solid #ddd;
+}
+
+.account-switch span {
+color: #888;
+
+font-size: 8px;
+font-weight: 800;
+letter-spacing: .1em;
+}
+
+.account-switch button {
+padding: 0;
+
+border: 0;
+background: none;
+
+color: #090909;
+
+font-size: 9px;
+font-weight: 900;
+letter-spacing: .08em;
+
+text-decoration: underline;
+text-underline-offset: 4px;
+}
+
+/* =========================================================
+MEMBER PROFILE
+========================================================= */
+
+.member-profile {
+display: flex;
+align-items: center;
+
+gap: 18px;
+
+padding: 20px;
+
+background: #ededed;
+}
+
+.member-avatar {
+width: 54px;
+height: 54px;
+
+flex: 0 0 54px;
+
+display: grid;
+place-items: center;
+
+background: #080808;
+color: white;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: 30px;
+font-weight: 900;
+font-style: italic;
+}
+
+.member-profile > div:last-child {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+
+.member-profile span {
+color: #888;
+
+font-size: 7px;
+font-weight: 800;
+letter-spacing: .15em;
+}
+
+.member-profile strong {
+font-size: 12px;
+font-weight: 900;
+letter-spacing: .04em;
+}
+
+.member-profile small {
+color: #777;
+font-size: 9px;
+}
+
+/* =========================================================
+MEMBER OPTIONS
+========================================================= */
+
+.member-options {
+margin-top: 25px;
+
+border-top: 1px solid #ddd;
+}
+
+.member-option {
+width: 100%;
+
+min-height: 72px;
+
+display: grid;
+grid-template-columns: 35px 1fr 25px;
+align-items: center;
+
+gap: 10px;
+
+padding: 12px 0;
+
+border: 0;
+border-bottom: 1px solid #ddd;
+
+background: transparent;
+
+text-align: left;
+
+color: #090909;
+
+transition: padding .2s ease;
+}
+
+.member-option:hover {
+padding-left: 8px;
+}
+
+.member-option > span {
+color: #999;
+
+font-family: "Barlow Condensed", sans-serif;
+font-size: 11px;
+font-weight: 700;
+}
+
+.member-option div {
+display: flex;
+flex-direction: column;
+gap: 5px;
+}
+
+.member-option strong {
+font-size: 10px;
+font-weight: 900;
+letter-spacing: .1em;
+}
+
+.member-option small {
+color: #888;
+font-size: 9px;
+}
+
+.member-option > b {
+font-size: 15px;
+}
+
+/* =========================================================
+LOGOUT
+========================================================= */
+
+.account-logout {
+width: 100%;
+height: 48px;
+
+margin-top: 25px;
+
+border: 1px solid #ccc;
+
+background: transparent;
+color: #111;
+
+font-size: 9px;
+font-weight: 900;
+letter-spacing: .15em;
+
+transition:
+background .2s ease,
+color .2s ease;
+}
+
+.account-logout:hover {
+background: #080808;
+color: white;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.account-footer {
+min-height: 60px;
+
+padding: 0 5vw;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+border-top: 1px solid var(--line);
+
+color: #555;
+
+font-size: 8px;
+font-weight: 700;
+letter-spacing: .12em;
+}
+
+/* =========================================================
+HIDDEN
+========================================================= */
+
+[hidden] {
+display: none !important;
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+.account-main {
+padding: 45px 25px;
+}
+
+.account-card {
+grid-template-columns: 1fr;
+}
+
+.account-intro {
+padding: 45px;
+}
+
+.account-intro h1 {
+font-size: 70px;
+}
+
+.account-panel {
+padding: 50px 45px;
+min-height: auto;
+}
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+.account-header {
+min-height: 72px;
+padding: 0 20px;
+}
+
+.account-logo-box {
+width: 36px;
+height: 36px;
+font-size: 22px;
+}
+
+.account-logo-text b {
+font-size: 14px;
+}
+
+.account-logo-text small {
+font-size: 6px;
+}
+
+.back-store {
+font-size: 8px;
+}
+
+.account-main {
+padding: 20px 12px 40px;
+}
+
+.account-intro {
+padding: 38px 28px;
+}
+
+.account-intro h1 {
+margin-top: 20px;
+font-size: 58px;
+}
+
+.account-intro > p {
+font-size: 11px;
+}
+
+.account-line {
+margin: 28px 0 15px;
+}
+
+.account-panel {
+padding: 40px 28px;
+}
+
+.account-panel h2 {
+font-size: 58px;
+}
+
+.account-switch {
+align-items: flex-start;
+flex-direction: column;
+}
+
+.account-footer {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+}
+/* =========================================================
+   ORDERS PAGE
+========================================================= */
+
+.orders-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+
+/* ORDER CARD */
+
+.order-card {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  padding: 22px;
+  box-sizing: border-box;
+}
+
+
+/* TOP */
+
+.order-card-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.order-card-top > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
+.order-label {
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #888;
+}
+
+
+.order-number {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+
+.order-date strong,
+.order-status strong {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+.order-status strong {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 9px;
+  background: #111;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+
+/* PRODUCTS */
+
+.order-products {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.order-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+
+.order-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
+.order-product-info strong {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+
+.order-product-info small {
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #888;
+}
+
+
+.order-product-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+
+.order-product-meta span {
+  color: #888;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.order-product-meta strong {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+
+/* TOTAL */
+
+.order-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+}
+
+
+.order-card-bottom span {
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #888;
+}
+
+
+.order-card-bottom strong {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+
+/* EMPTY ORDERS */
+
+.orders-empty {
+  padding: 45px 20px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 25px;
+}
+
+
+.orders-empty-number {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 64px;
+  line-height: 0.8;
+  font-weight: 900;
+  margin-bottom: 20px;
+  opacity: 0.12;
+}
+
+
+.orders-empty h3 {
+  margin: 0 0 10px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+
+.orders-empty p {
+  max-width: 360px;
+  margin: 0 auto 25px;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+.orders-shop-button {
+  display: inline-flex;
+  width: auto;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .order-card {
+    padding: 16px;
+  }
+
+
+  .order-card-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+
+  .order-status {
+    grid-column: 1 / -1;
+  }
+
+
+  .order-product {
+    align-items: flex-start;
+  }
+
+
+  .order-product-meta {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+
+  .order-product-info strong {
+    font-size: 16px;
+  }
+
+
+  .order-card-bottom strong {
+    font-size: 22px;
+  }
+
+}
