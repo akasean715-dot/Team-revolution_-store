@@ -45,32 +45,38 @@
 
     <div class="pdp-actions">
 
-      <button
-        type="button"
-        class="pdp-icon"
-        aria-label="Search"
-      >
-        ⌕
-      </button>
+  <!-- SEARCH -->
+  <button
+    id="pdpSearchButton"
+    type="button"
+    class="pdp-icon"
+    aria-label="Search"
+  >
+    ⌕
+  </button>
 
-      <button
-        type="button"
-        class="pdp-icon"
-        aria-label="Account"
-      >
-        ♙
-      </button>
+  <!-- ACCOUNT -->
+  <button
+    id="pdpAccountButton"
+    type="button"
+    class="pdp-icon"
+    aria-label="Account"
+  >
+    ♙
+  </button>
 
-      <button
-        type="button"
-        class="pdp-icon bag-button"
-        aria-label="Shopping bag"
-      >
-        ♧
-        <span id="bagCount">0</span>
-      </button>
+  <!-- SHOPPING BAG -->
+  <button
+    id="pdpBagButton"
+    type="button"
+    class="pdp-icon bag-button"
+    aria-label="Shopping bag"
+  >
+    ♧
+    <span id="bagCount">0</span>
+  </button>
 
-    </div>
+</div>
 
   </header>
 
@@ -493,6 +499,50 @@
 
   </main>
 
+  <!-- ================= SEARCH PANEL ================= -->
+
+<div id="pdpSearchOverlay" class="pdp-search-overlay">
+
+  <div class="pdp-search-panel">
+
+    <button
+      id="pdpSearchClose"
+      type="button"
+      class="pdp-search-close"
+      aria-label="Close search"
+    >
+      ×
+    </button>
+
+    <div class="pdp-search-label">
+      SEARCH THE REVOLUTION
+    </div>
+
+    <div class="pdp-search-box">
+      <input
+        id="pdpSearchInput"
+        type="search"
+        placeholder="SEARCH PRODUCTS..."
+        autocomplete="off"
+      >
+
+      <button
+        id="pdpSearchSubmit"
+        type="button"
+        aria-label="Search"
+      >
+        ⌕
+      </button>
+    </div>
+
+    <div
+      id="pdpSearchResults"
+      class="pdp-search-results"
+    ></div>
+
+  </div>
+
+</div>
 
   <!-- ================= TOAST ================= -->
 

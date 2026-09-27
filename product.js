@@ -980,6 +980,331 @@ function showError(message) {
 
 
 /* =========================================================
+   SEARCH
+========================================================= */
+
+const searchButton = $("#pdpSearchButton");
+const searchOverlay = $("#pdpSearchOverlay");
+const searchClose = $("#pdpSearchClose");
+const searchInput = $("#pdpSearchInput");
+const searchSubmit = $("#pdpSearchSubmit");
+const searchResults = $("#pdpSearchResults");
+
+
+function openSearch() {
+
+  if (!searchOverlay) return;
+
+  searchOverlay.classList.add("open");
+
+  setTimeout(() => {
+    searchInput?.focus();
+  }, 100);
+
+}
+
+
+function closeSearch() {
+
+  if (!searchOverlay) return;
+
+  searchOverlay.classList.remove("open");
+
+}
+
+
+searchButton?.addEventListener(
+  "click",
+  openSearch
+);
+
+
+searchClose?.addEventListener(
+  "click",
+  closeSearch
+);
+
+
+/* CLOSE WHEN CLICKING OUTSIDE THE SEARCH PANEL */
+
+searchOverlay?.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target === searchOverlay
+    ) {
+      closeSearch();
+    }
+
+  }
+);
+
+
+/* ESC KEY */
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Escape" &&
+      searchOverlay?.classList.contains("open")
+    ) {
+      closeSearch();
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SEARCH PRODUCTS
+========================================================= */
+
+async function performProductSearch() {
+
+  const searchTerm =
+    searchInput?.value
+      .trim()
+      .toLowerCase();
+
+  if (!searchResults) return;
+
+
+  if (!searchTerm) {
+
+    searchResults.innerHTML = `
+      <div class="search-empty">
+        TYPE A PRODUCT NAME TO SEARCH.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  searchResults.innerHTML = `
+    <div class="search-loading">
+      SEARCHING...
+    </div>
+  `;
+
+
+  try {
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "products"
+        )
+      );
+
+
+    const products =
+      snapshot.docs
+        .map((item) => ({
+          id: item.id,
+          ...item.data()
+        }))
+        .filter(
+          (product) =>
+            product.active !== false
+        );
+
+
+    const matches =
+      products.filter(
+        (product) => {
+
+          const name =
+            String(
+              product.name ||
+              product.title ||
+              ""
+            ).toLowerCase();
+
+          const description =
+            String(
+              product.description ||
+              ""
+            ).toLowerCase();
+
+          const category =
+            String(
+              product.category ||
+              ""
+            ).toLowerCase();
+
+          const type =
+            String(
+              product.type ||
+              ""
+            ).toLowerCase();
+
+
+          return (
+            name.includes(searchTerm) ||
+            description.includes(searchTerm) ||
+            category.includes(searchTerm) ||
+            type.includes(searchTerm)
+          );
+
+        }
+      );
+
+
+    if (!matches.length) {
+
+      searchResults.innerHTML = `
+        <div class="search-empty">
+          NO PRODUCTS FOUND FOR
+          "<strong>${escapeHtml(searchInput.value.trim())}</strong>"
+        </div>
+      `;
+
+      return;
+    }
+
+
+    searchResults.innerHTML =
+      matches.map(
+        (product) => {
+
+          const images =
+            getImageList(product);
+
+          const image =
+            images[0] || "";
+
+
+          return `
+            <a
+              class="search-result"
+              href="./product.html?id=${encodeURIComponent(product.id)}"
+            >
+
+              <div class="search-result-image">
+
+                ${
+                  image
+                    ? `
+                      <img
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(
+                          product.name ||
+                          product.title ||
+                          "Product"
+                        )}"
+                      >
+                    `
+                    : ""
+                }
+
+              </div>
+
+
+              <div class="search-result-info">
+
+                <span class="search-result-category">
+                  ${escapeHtml(
+                    String(
+                      product.category ||
+                      product.type ||
+                      "PRODUCT"
+                    ).toUpperCase()
+                  )}
+                </span>
+
+                <h3>
+                  ${escapeHtml(
+                    product.name ||
+                    product.title ||
+                    "Product"
+                  )}
+                </h3>
+
+                <p>
+                  ${formatPrice(product.price)}
+                </p>
+
+              </div>
+
+            </a>
+          `;
+
+        }
+      ).join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "Product search error:",
+      error
+    );
+
+    searchResults.innerHTML = `
+      <div class="search-empty">
+        COULD NOT SEARCH PRODUCTS.
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* SEARCH BUTTON */
+
+searchSubmit?.addEventListener(
+  "click",
+  performProductSearch
+);
+
+
+/* SEARCH AS YOU TYPE */
+
+searchInput?.addEventListener(
+  "input",
+  () => {
+
+    window.clearTimeout(
+      searchInput.searchTimer
+    );
+
+    searchInput.searchTimer =
+      window.setTimeout(
+        performProductSearch,
+        250
+      );
+
+  }
+);
+
+
+/* ENTER KEY */
+
+searchInput?.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      event.preventDefault();
+
+      performProductSearch();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    START
 ========================================================= */
 
