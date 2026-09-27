@@ -644,6 +644,298 @@ function updateBagCount() {
     count;
 }
 
+/* =========================================================
+   BAG DRAWER
+========================================================= */
+
+const bagButton = $("#pdpBagButton");
+const bagDrawer = $("#bagDrawer");
+const bagOverlay = $("#bagOverlay");
+const closeBagButton = $("#closeBagButton");
+const bagItems = $("#bagItems");
+const bagSubtotal = $("#bagSubtotal");
+const emptyBag = $("#emptyBag");
+const continueShopping = $("#continueShopping");
+
+
+function openBag() {
+  if (!bagDrawer || !bagOverlay) return;
+
+  renderBagDrawer();
+
+  bagDrawer.classList.add("open");
+  bagOverlay.classList.add("open");
+
+  bagDrawer.setAttribute("aria-hidden", "false");
+
+  document.body.style.overflow = "hidden";
+}
+
+
+function closeBag() {
+  if (!bagDrawer || !bagOverlay) return;
+
+  bagDrawer.classList.remove("open");
+  bagOverlay.classList.remove("open");
+
+  bagDrawer.setAttribute("aria-hidden", "true");
+
+  document.body.style.overflow = "";
+}
+
+
+/* BAG BUTTON */
+
+bagButton?.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  openBag();
+});
+
+
+/* CLOSE BUTTON */
+
+closeBagButton?.addEventListener("click", (event) => {
+  event.preventDefault();
+  closeBag();
+});
+
+
+/* DARK OVERLAY */
+
+bagOverlay?.addEventListener("click", () => {
+  closeBag();
+});
+
+
+/* ESC KEY */
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeBag();
+  }
+});
+
+
+/* CONTINUE SHOPPING */
+
+continueShopping?.addEventListener("click", () => {
+  closeBag();
+});
+
+
+/* =========================================================
+   RENDER BAG DRAWER
+========================================================= */
+
+function renderBagDrawer() {
+
+  if (!bagItems) return;
+
+  const bag = getBag();
+
+  if (!bag.length) {
+
+    bagItems.innerHTML = `
+      <div id="emptyBag" class="empty-bag">
+        <span class="empty-bag-icon">♧</span>
+
+        <h3>YOUR BAG IS EMPTY</h3>
+
+        <p>
+          ADD SOMETHING FROM THE REVOLUTION STORE.
+        </p>
+
+        <button
+          id="continueShopping"
+          type="button"
+          class="continue-shopping"
+        >
+          CONTINUE SHOPPING
+        </button>
+      </div>
+    `;
+
+    if (bagSubtotal) {
+      bagSubtotal.textContent = "₹0";
+    }
+
+    document
+      .querySelector("#continueShopping")
+      ?.addEventListener("click", closeBag);
+
+    return;
+  }
+
+
+  const subtotal = bag.reduce(
+    (total, item) => {
+      return total +
+        (Number(item.price) || 0) *
+        (Number(item.quantity) || 0);
+    },
+    0
+  );
+
+
+  if (bagSubtotal) {
+    bagSubtotal.textContent = formatPrice(subtotal);
+  }
+
+
+  bagItems.innerHTML = bag.map((item, index) => {
+
+    const quantity =
+      Number(item.quantity) || 1;
+
+    const price =
+      Number(item.price) || 0;
+
+    return `
+      <div class="bag-item">
+
+        <div class="bag-item-image">
+
+          ${
+            item.image
+              ? `
+                <img
+                  src="${escapeHtml(item.image)}"
+                  alt="${escapeHtml(item.name || "Product")}"
+                >
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <div class="bag-item-info">
+
+          <h3 class="bag-item-name">
+            ${escapeHtml(item.name || "Product")}
+          </h3>
+
+          <div class="bag-item-price">
+            ${formatPrice(price)}
+          </div>
+
+          ${
+            item.size
+              ? `
+                <div class="bag-item-size">
+                  SIZE ${escapeHtml(item.size)}
+                </div>
+              `
+              : ""
+          }
+
+
+          <div class="bag-quantity">
+
+            <button
+              type="button"
+              data-bag-action="minus"
+              data-bag-index="${index}"
+            >
+              −
+            </button>
+
+            <span class="bag-quantity-value">
+              ${quantity}
+            </span>
+
+            <button
+              type="button"
+              data-bag-action="plus"
+              data-bag-index="${index}"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="bag-item-remove"
+          data-bag-action="remove"
+          data-bag-index="${index}"
+          aria-label="Remove item"
+        >
+          ×
+        </button>
+
+      </div>
+    `;
+
+  }).join("");
+
+
+  /* QUANTITY / REMOVE */
+
+  bagItems
+    .querySelectorAll("[data-bag-action]")
+    .forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        const index =
+          Number(button.dataset.bagIndex);
+
+        const action =
+          button.dataset.bagAction;
+
+        const currentBag =
+          getBag();
+
+        const item =
+          currentBag[index];
+
+        if (!item) return;
+
+
+        if (action === "plus") {
+
+          item.quantity =
+            Number(item.quantity || 0) + 1;
+
+        }
+
+
+        if (action === "minus") {
+
+          item.quantity =
+            Number(item.quantity || 0) - 1;
+
+          if (item.quantity <= 0) {
+            currentBag.splice(index, 1);
+          }
+
+        }
+
+
+        if (action === "remove") {
+
+          currentBag.splice(index, 1);
+
+        }
+
+
+        saveBag(currentBag);
+
+        updateBagCount();
+
+        renderBagDrawer();
+
+      });
+
+    });
+
+}
 
 /* =========================================================
    WISHLIST

@@ -553,6 +553,75 @@
     ADDED TO BAG
   </div>
 
+  <!-- =========================================================
+     SHOPPING BAG DRAWER
+========================================================= -->
+
+<div id="bagOverlay" class="bag-overlay"></div>
+
+<aside id="bagDrawer" class="bag-drawer" aria-hidden="true">
+
+  <!-- HEADER -->
+  <div class="bag-header">
+    <div>
+      <span class="bag-eyebrow">THE REVOLUTION</span>
+      <h2>YOUR BAG</h2>
+    </div>
+
+    <button
+      id="closeBagButton"
+      type="button"
+      class="bag-close"
+      aria-label="Close shopping bag"
+    >
+      ×
+    </button>
+  </div>
+
+  <!-- ITEMS -->
+  <div id="bagItems" class="bag-items">
+
+    <!-- JavaScript will insert products here -->
+
+    <div id="emptyBag" class="empty-bag">
+      <span class="empty-bag-icon">♧</span>
+      <h3>YOUR BAG IS EMPTY</h3>
+      <p>ADD SOMETHING FROM THE REVOLUTION STORE.</p>
+      <button
+        id="continueShopping"
+        type="button"
+        class="continue-shopping"
+      >
+        CONTINUE SHOPPING
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="bag-footer">
+
+    <div class="bag-subtotal">
+      <span>SUBTOTAL</span>
+      <strong id="bagSubtotal">₹0</strong>
+    </div>
+
+    <p class="bag-note">
+      SHIPPING & TAXES CALCULATED AT CHECKOUT.
+    </p>
+
+    <button
+      id="bagCheckout"
+      type="button"
+      class="bag-checkout"
+    >
+      CHECKOUT
+      <span>↗</span>
+    </button>
+
+  </div>
+
+</aside>
 
   <!-- ================= SCRIPT ================= -->
 
