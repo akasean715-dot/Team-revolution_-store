@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Revolution MMA & Fitness — Shillong</title>
+<title>Team Revolution MMA & Fitness — Shillong</title>
 <meta name="description" content="The Revolution MMA & Fitness — train, fight, evolve. Official merchandise and training."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -11,7 +11,7 @@
 <body>
 <div class="noise"></div>
 <header class="header">
-  <a class="logo" href="#top"><span class="logo-box">R</span><span><b>THE REVOLUTION</b><small>MMA & FITNESS · SHILLONG</small></span></a>
+  <a class="logo" href="#top"><span class="logo-box">R</span><span><b>TEAM REVOLUTION</b><small>MMA & FITNESS · SHILLONG</small></span></a>
   <nav id="nav"><a href="#training">TRAINING</a><a href="#shop">SHOP</a><a href="#team">TEAM</a><a href="#events">EVENTS</a><a href="#contact">CONTACT</a></nav>
   <div class="head-tools"><button
   id="memberBtn"
@@ -35,8 +35,34 @@
 <section class="newsletter"><div><div class="section-label">07 / STAY CONNECTED</div><h2>DON'T MISS<br>THE <em>NEXT DROP.</em></h2></div><form id="newsletter"><input type="email" required placeholder="YOUR EMAIL ADDRESS"><button>JOIN THE LIST ↗</button></form></section>
 </main>
 <footer><div class="logo"><span class="logo-box">R</span><span><b>THE REVOLUTION</b><small>MMA & FITNESS</small></span></div><div class="footer-links"><a href="#shop">SHOP</a><a href="#training">TRAINING</a><a href="#contact">CONTACT</a><a href="admin.html">STAFF ↗</a></div><small>© 2026 THE REVOLUTION MMA & FITNESS</small></footer>
-<div id="overlay" class="overlay"></div>
-<aside id="cartPanel" class="cart-panel"><div class="panel-head"><span>YOUR BAG</span><button id="closeCart">×</button></div><div id="cartItems" class="cart-items"></div><div class="cart-bottom"><div><span>SUBTOTAL</span><strong id="subtotal">₹0</strong></div><button class="btn white checkout" id="checkout">SECURE CHECKOUT ↗</button><small>Secure payment will be connected to Stripe/PayPal.</small></div></aside>
+<div id="bagOverlay" class="bag-overlay"></div>
+<aside id="bagDrawer" class="bag-drawer" aria-hidden="true">
+  <div class="bag-header">
+    <div>
+      <span class="bag-eyebrow">THE REVOLUTION</span>
+      <h2>YOUR BAG</h2>
+    </div>
+    <button id="closeBagButton" type="button" class="bag-close" aria-label="Close shopping bag">×</button>
+  </div>
+
+  <div id="bagItems" class="bag-items">
+    <div id="emptyBag" class="empty-bag">
+      <span class="empty-bag-icon">♧</span>
+      <h3>YOUR BAG IS EMPTY</h3>
+      <p>ADD SOMETHING FROM THE REVOLUTION STORE.</p>
+      <button id="continueShopping" type="button" class="continue-shopping">CONTINUE SHOPPING</button>
+    </div>
+  </div>
+
+  <div class="bag-footer">
+    <div class="bag-subtotal">
+      <span>SUBTOTAL</span>
+      <strong id="bagSubtotal">₹0</strong>
+    </div>
+    <p class="bag-note">SHIPPING & TAXES CALCULATED AT CHECKOUT.</p>
+    <button id="bagCheckout" type="button" class="bag-checkout">CHECKOUT <span>↗</span></button>
+  </div>
+</aside>
 <div id="memberModal" class="modal"><div class="modal-card"><button class="modal-close">×</button><div class="section-label">MEMBER ACCESS</div><h2>WELCOME<br><em>BACK.</em></h2><input id="memberEmail" type="email" placeholder="EMAIL"><input id="memberPassword" type="password" placeholder="PASSWORD"><button id="memberSignIn" class="btn black">SIGN IN ↗</button><small id="memberStatus">Member discounts and account access are powered by Firebase Authentication.</small></div></div>
 <div id="toast" class="toast"></div>
 <script type="module" src="app.js"></script>

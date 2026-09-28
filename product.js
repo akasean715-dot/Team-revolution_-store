@@ -605,11 +605,42 @@ function getBag() {
 
   try {
 
-    return JSON.parse(
-      localStorage.getItem(
-        "revolution_cart"
-      ) || "[]"
+    const shared = JSON.parse(
+      localStorage.getItem("revolution_cart") || "null"
     );
+
+    if (Array.isArray(shared)) {
+      return shared.map((item) => ({
+        id: item.id || "",
+        name: item.name || item.title || "Product",
+        price: Number(item.price || 0),
+        image: item.image || item.imageUrl || "",
+        size: item.size || "",
+        quantity: Math.max(1, Number(item.quantity ?? item.qty ?? 1))
+      }));
+    }
+
+    const legacy = JSON.parse(
+      localStorage.getItem("revolution-cart") || "[]"
+    );
+
+    const normalized = Array.isArray(legacy)
+      ? legacy.map((item) => ({
+          id: item.id || "",
+          name: item.name || item.title || "Product",
+          price: Number(item.price || 0),
+          image: item.image || item.imageUrl || "",
+          size: item.size || "",
+          quantity: Math.max(1, Number(item.quantity ?? item.qty ?? 1))
+        }))
+      : [];
+
+    if (normalized.length) {
+      localStorage.setItem("revolution_cart", JSON.stringify(normalized));
+      localStorage.removeItem("revolution-cart");
+    }
+
+    return normalized;
 
   } catch {
 
@@ -620,10 +651,21 @@ function getBag() {
 
 function saveBag(bag) {
 
+  const normalized = bag.map((item) => ({
+    id: item.id || "",
+    name: item.name || item.title || "Product",
+    price: Number(item.price || 0),
+    image: item.image || item.imageUrl || "",
+    size: item.size || "",
+    quantity: Math.max(1, Number(item.quantity ?? item.qty ?? 1))
+  }));
+
   localStorage.setItem(
     "revolution_cart",
-    JSON.stringify(bag)
+    JSON.stringify(normalized)
   );
+
+  localStorage.removeItem("revolution-cart");
 }
 
 
@@ -1595,7 +1637,15 @@ searchInput?.addEventListener(
   }
 );
 
+/* =========================================================
+   ACCOUNT BUTTON
+========================================================= */
 
+document
+  .getElementById("pdpAccountButton")
+  ?.addEventListener("click", () => {
+    window.location.href = "account.html";
+  });
 /* =========================================================
    START
 ========================================================= */

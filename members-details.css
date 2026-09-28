@@ -1,0 +1,449 @@
+/* =========================================================
+   THE REVOLUTION — MEMBER DETAILS
+   CLEAN BLACK / WHITE REDESIGN
+   This file intentionally targets .member-details-page.
+========================================================= */
+
+body.member-details-page {
+  --md-black: #050505;
+  --md-panel: #0b0b0b;
+  --md-panel-2: #101010;
+  --md-white: #f4f4f1;
+  --md-muted: #858585;
+  --md-line: rgba(255,255,255,.13);
+  --md-line-soft: rgba(255,255,255,.08);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--md-black) !important;
+  color: var(--md-white) !important;
+}
+
+body.member-details-page .account-header {
+  min-height: 90px !important;
+  padding: 0 clamp(24px, 5vw, 78px) !important;
+  background: rgba(5,5,5,.96) !important;
+  border-bottom: 1px solid var(--md-line) !important;
+}
+
+body.member-details-page .account-main {
+  min-height: calc(100vh - 150px) !important;
+  padding: clamp(42px, 6vw, 76px) clamp(16px, 5vw, 78px) !important;
+  align-items: center !important;
+  background:
+    radial-gradient(circle at 72% 12%, rgba(255,255,255,.055), transparent 28%),
+    linear-gradient(135deg, #050505 0%, #090909 55%, #030303 100%) !important;
+}
+
+body.member-details-page .account-card {
+  width: min(1380px, 100%) !important;
+  display: grid !important;
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr) !important;
+  background: var(--md-panel) !important;
+  color: var(--md-white) !important;
+  border: 1px solid var(--md-line) !important;
+  box-shadow: 0 40px 100px rgba(0,0,0,.6) !important;
+}
+
+/* LEFT */
+body.member-details-page .account-intro {
+  min-height: 690px !important;
+  padding: clamp(40px, 5vw, 70px) clamp(28px, 4vw, 58px) !important;
+  justify-content: flex-start !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(ellipse at 15% 88%, rgba(255,255,255,.055), transparent 38%),
+    radial-gradient(ellipse at 90% 20%, rgba(255,255,255,.035), transparent 34%),
+    linear-gradient(145deg,#111 0%,#060606 75%) !important;
+  border-right: 1px solid var(--md-line) !important;
+}
+
+body.member-details-page .account-intro::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -260px;
+  bottom: -230px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 55px rgba(255,255,255,.018),
+    0 0 0 110px rgba(255,255,255,.012);
+  pointer-events: none;
+}
+
+body.member-details-page .section-label {
+  position: relative;
+  z-index: 1;
+  color: #777 !important;
+  font-size: 9px !important;
+  letter-spacing: .24em !important;
+}
+
+body.member-details-page .account-intro h1 {
+  position: relative;
+  z-index: 1;
+  margin: 28px 0 30px !important;
+  color: #fff !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: clamp(70px, 8vw, 118px) !important;
+  line-height: .76 !important;
+  letter-spacing: -.055em !important;
+}
+
+body.member-details-page .account-intro h1 em {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #f4f4f1 !important;
+  text-stroke: 1.5px #f4f4f1 !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+
+body.member-details-page .account-intro > p {
+  position: relative;
+  z-index: 1;
+  max-width: 360px !important;
+  margin: 0 !important;
+  color: #999 !important;
+  font-size: 13px !important;
+  line-height: 1.85 !important;
+}
+
+body.member-details-page .account-line {
+  position: relative;
+  z-index: 1;
+  margin: 48px 0 0 !important;
+  background: var(--md-line) !important;
+}
+
+body.member-details-page .account-note {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: 52px 1fr !important;
+  padding: 20px 0 !important;
+  border-bottom: 1px solid var(--md-line-soft) !important;
+}
+
+body.member-details-page .account-note > span {
+  color: #fff !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+}
+
+body.member-details-page .account-note p {
+  color: #eee !important;
+  font-size: 10px !important;
+  letter-spacing: .16em !important;
+}
+
+body.member-details-page .account-note small {
+  color: #777 !important;
+  font-size: 9px !important;
+  line-height: 1.5 !important;
+}
+
+/* RIGHT */
+body.member-details-page .account-panel {
+  min-height: 690px !important;
+  padding: clamp(38px, 5vw, 70px) clamp(28px, 5vw, 78px) !important;
+  display: block !important;
+  background: #0b0b0b !important;
+  color: #fff !important;
+}
+
+body.member-details-page .account-eyebrow {
+  color: #777 !important;
+  font-size: 9px !important;
+  letter-spacing: .24em !important;
+}
+
+body.member-details-page .account-panel h2 {
+  margin: 15px 0 10px !important;
+  color: #fff !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: clamp(58px, 6.5vw, 92px) !important;
+  line-height: .8 !important;
+  letter-spacing: -.05em !important;
+}
+
+body.member-details-page .account-panel h2 em {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #f4f4f1 !important;
+  text-stroke: 1.5px #f4f4f1 !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+
+body.member-details-page .account-description {
+  margin: 20px 0 32px !important;
+  color: #8b8b8b !important;
+  font-size: 12px !important;
+}
+
+/* PROFILE */
+body.member-details-page .member-details-profile {
+  width: 100% !important;
+  min-height: 88px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+  margin: 0 0 38px !important;
+  padding: 16px 20px !important;
+  background: #0d0d0d !important;
+  border: 1px solid #3a3a3a !important;
+}
+
+body.member-details-page .member-details-avatar {
+  width: 56px !important;
+  height: 56px !important;
+  flex: 0 0 56px !important;
+  display: grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  border: 1px solid #777 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 900 !important;
+  font-style: italic !important;
+}
+
+body.member-details-page .member-details-profile > div:last-child {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+
+body.member-details-page .member-details-profile span {
+  color: #777 !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  letter-spacing: .2em !important;
+}
+
+body.member-details-page .member-details-profile strong {
+  overflow-wrap: anywhere !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: .02em !important;
+}
+
+/* FORM */
+body.member-details-page #memberDetailsForm {
+  width: 100% !important;
+  display: block !important;
+}
+
+body.member-details-page .member-details-group {
+  width: 100% !important;
+}
+
+body.member-details-page .member-details-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin: 0 0 22px !important;
+  color: #f2f2f2 !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  letter-spacing: .18em !important;
+}
+
+body.member-details-page .member-details-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--md-line) !important;
+}
+
+body.member-details-page #memberDetailsForm label {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 9px !important;
+  margin: 0 0 18px !important;
+  color: #777 !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: .18em !important;
+}
+
+body.member-details-page #memberDetailsForm input {
+  width: 100% !important;
+  height: 54px !important;
+  padding: 0 16px !important;
+  background: #0b0b0b !important;
+  color: #f5f5f2 !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 13px !important;
+}
+
+body.member-details-page #memberDetailsForm input:focus {
+  border-color: #fff !important;
+  background: #111 !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.12) !important;
+}
+
+body.member-details-page #memberDetailsForm input::placeholder {
+  color: #555 !important;
+}
+
+body.member-details-page #memberDetailsForm input[readonly] {
+  color: #777 !important;
+  background: #090909 !important;
+  cursor: not-allowed !important;
+}
+
+/* BUTTONS */
+body.member-details-page #saveDetailsButton {
+  width: 100% !important;
+  height: 54px !important;
+  margin-top: 8px !important;
+  border: 1px solid #fff !important;
+  border-radius: 0 !important;
+  background: #f4f4f1 !important;
+  color: #080808 !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  letter-spacing: .16em !important;
+  transition: background .2s ease, color .2s ease, transform .2s ease !important;
+}
+
+body.member-details-page #saveDetailsButton:hover {
+  background: #080808 !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+}
+
+body.member-details-page #changePasswordButton {
+  width: auto !important;
+  min-width: 230px !important;
+  min-height: 50px !important;
+  padding: 12px 20px !important;
+  border: 1px solid #555 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: .15em !important;
+}
+
+body.member-details-page #changePasswordButton:hover {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #080808 !important;
+}
+
+body.member-details-page .member-password-section {
+  margin-top: 38px !important;
+  padding-top: 30px !important;
+  border-top: 1px solid var(--md-line) !important;
+}
+
+body.member-details-page #memberDetailsStatus {
+  min-height: 18px !important;
+  margin-top: 18px !important;
+  color: #777 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .07em !important;
+}
+
+body.member-details-page #memberDetailsStatus.success { color: #bdbdbd !important; }
+body.member-details-page #memberDetailsStatus.error { color: #fff !important; }
+
+body.member-details-page #memberDetailsLogout {
+  width: 100% !important;
+  height: 48px !important;
+  margin-top: 28px !important;
+  border: 1px solid #333 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #777 !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  letter-spacing: .17em !important;
+}
+
+body.member-details-page #memberDetailsLogout:hover {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #080808 !important;
+}
+
+body.member-details-page .account-footer {
+  background: #050505 !important;
+  border-top: 1px solid var(--md-line) !important;
+  color: #555 !important;
+}
+
+body.member-details-page [hidden] { display: none !important; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  body.member-details-page .account-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.member-details-page .account-intro {
+    min-height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--md-line) !important;
+  }
+
+  body.member-details-page .account-panel {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 600px) {
+  body.member-details-page .account-header {
+    min-height: 72px !important;
+    padding: 0 18px !important;
+  }
+
+  body.member-details-page .account-logo-text b { font-size: 14px !important; }
+  body.member-details-page .account-logo-text small { font-size: 6px !important; }
+  body.member-details-page .back-store { font-size: 7px !important; }
+
+  body.member-details-page .account-main {
+    padding: 16px 10px 30px !important;
+  }
+
+  body.member-details-page .account-intro {
+    padding: 40px 26px !important;
+  }
+
+  body.member-details-page .account-intro h1 {
+    font-size: 64px !important;
+  }
+
+  body.member-details-page .account-panel {
+    padding: 38px 24px !important;
+  }
+
+  body.member-details-page .account-panel h2 {
+    font-size: 58px !important;
+  }
+
+  body.member-details-page .member-details-profile {
+    padding: 14px !important;
+  }
+
+  body.member-details-page #changePasswordButton {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

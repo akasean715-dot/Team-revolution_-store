@@ -560,6 +560,9 @@ $("#myOrdersButton")?.addEventListener("click", () => {
   window.location.href = "orders.html";
 });
 
+$("#memberDetailsButton")?.addEventListener("click", () => {
+  window.location.href = "members-details.html";
+});
 /* =========================================================
    FIREBASE AUTH STATE
 ========================================================= */

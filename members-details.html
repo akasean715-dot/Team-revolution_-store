@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Member Details | The Revolution</title>
+
+  <meta
+    name="description"
+    content="Manage your Revolution MMA & Fitness member details."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="members-details.css">
+ 
+</head>
+
+<body class="member-details-page">
+
+  <div class="account-noise"></div>
+
+  <!-- HEADER -->
+
+  <header class="account-header">
+
+    <a href="index.html" class="account-logo">
+
+      <span class="account-logo-box">
+        R
+      </span>
+
+      <span class="account-logo-text">
+        <b>THE REVOLUTION</b>
+        <small>MMA & FITNESS · SHILLONG</small>
+      </span>
+
+    </a>
+
+    <a href="account.html" class="back-store">
+      ← BACK TO ACCOUNT
+    </a>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="account-main">
+
+    <section class="account-card">
+
+
+      <!-- LEFT SIDE -->
+
+      <div class="account-intro">
+
+        <div class="section-label">
+          MEMBER AREA
+        </div>
+
+        <h1>
+          YOUR<br>
+          <em>DETAILS.</em>
+        </h1>
+
+        <p>
+          Manage your Revolution member information
+          and account security.
+        </p>
+
+        <div class="account-line"></div>
+
+
+        <div class="account-note">
+
+          <span>01</span>
+
+          <p>
+            PERSONAL DETAILS<br>
+
+            <small>
+              Keep your member information up to date.
+            </small>
+          </p>
+
+        </div>
+
+
+        <div class="account-note">
+
+          <span>02</span>
+
+          <p>
+            ACCOUNT SECURITY<br>
+
+            <small>
+              Manage your Revolution account password.
+            </small>
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT SIDE -->
+
+      <div class="account-panel">
+
+        <div class="account-eyebrow">
+          MEMBER DETAILS
+        </div>
+
+        <h2>
+          YOUR <em>ACCOUNT.</em>
+        </h2>
+
+        <p class="account-description">
+          Manage your personal information.
+        </p>
+
+
+        <!-- MEMBER PROFILE -->
+
+        <div class="member-details-profile">
+
+          <div class="member-details-avatar">
+            R
+          </div>
+
+          <div>
+
+            <span>
+              REVOLUTION MEMBER
+            </span>
+
+            <strong id="memberDetailsEmail">
+              LOADING...
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- PERSONAL DETAILS -->
+
+        <form id="memberDetailsForm">
+
+          <div class="member-details-group">
+
+            <div class="member-details-label">
+              PERSONAL INFORMATION
+            </div>
+
+
+            <label>
+
+              FULL NAME
+
+              <input
+                id="memberDetailsName"
+                type="text"
+                placeholder="YOUR NAME"
+                autocomplete="name"
+                required
+              >
+
+            </label>
+
+
+            <label>
+
+              EMAIL ADDRESS
+
+              <input
+                id="memberDetailsEmailInput"
+                type="email"
+                readonly
+              >
+
+            </label>
+
+          </div>
+
+
+          <button
+            type="submit"
+            id="saveDetailsButton"
+            class="account-submit"
+          >
+            SAVE DETAILS ↗
+          </button>
+
+        </form>
+
+
+        <!-- PASSWORD -->
+
+        <div class="member-details-group member-password-section">
+
+          <div class="member-details-label">
+            ACCOUNT SECURITY
+          </div>
+
+          <button
+            type="button"
+            id="changePasswordButton"
+            class="member-details-secondary-button"
+          >
+            CHANGE PASSWORD ↗
+          </button>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div
+          id="memberDetailsStatus"
+          class="account-status"
+          aria-live="polite"
+        ></div>
+
+
+        <!-- SIGN OUT -->
+
+        <button
+          type="button"
+          id="memberDetailsLogout"
+          class="account-logout"
+        >
+          SIGN OUT
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer class="account-footer">
+
+    <span>
+      © 2026 THE REVOLUTION MMA & FITNESS
+    </span>
+
+    <span>
+      SHILLONG · INDIA
+    </span>
+
+  </footer>
+
+
+  <script type="module" src="members-details.js"></script>
+
+</body>
+
+</html>

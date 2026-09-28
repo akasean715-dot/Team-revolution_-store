@@ -4,3 +4,863 @@
 .product-actions{display:flex;align-items:center;gap:6px}.size-select{background:#fff;border:1px solid #bbb;padding:9px 7px;font-size:8px;font-weight:900;letter-spacing:.08em;max-width:70px}.empty-products{grid-column:1/-1;border:1px solid #ccc;padding:70px 30px;text-align:center;font-family:"Barlow Condensed";font-size:38px;font-weight:900;letter-spacing:-.02em}.empty-products small{display:block;margin-top:12px;font-family:Inter;font-size:10px;font-weight:500;color:#777;letter-spacing:.04em}.mobile-open{display:flex!important}.footer-links a{margin-left:20px}
 @media(max-width:900px){.products{grid-template-columns:repeat(2,1fr)}.product-image{height:300px}.product-actions{flex-wrap:wrap}.size-select{max-width:100%}}
 @media(max-width:560px){.products{grid-template-columns:1fr}.footer-links a{margin-left:8px;font-size:9px}.product-image{height:360px}}
+
+
+/* =========================================================
+   SHARED REVOLUTION BAG — MATCHES PRODUCT PAGE
+========================================================= */
+.add-to-bag {
+  min-height: 50px;
+  border: 0;
+  background: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 18px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.add-to-bag:hover { background: #ddd; }
+.product-actions { display:flex; align-items:center; gap:8px; }
+.size-select { height:50px; border:1px solid #bbb; background:#fff; color:#080808; padding:0 8px; font-size:9px; font-weight:900; letter-spacing:.08em; }
+
+.bag-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.72);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility .3s ease;
+  z-index: 9998;
+}
+.bag-overlay.open { opacity:1; visibility:visible; pointer-events:auto; }
+.bag-drawer {
+  position:fixed; top:0; right:0;
+  width:min(420px,92vw); height:100vh;
+  background:#0b0b0b; color:#fff;
+  display:flex; flex-direction:column;
+  transform:translateX(100%); visibility:hidden;
+  transition:transform .38s cubic-bezier(.22,.61,.36,1),visibility .38s ease;
+  z-index:9999;
+  border-left:1px solid rgba(255,255,255,.1);
+  box-shadow:-20px 0 60px rgba(0,0,0,.45);
+}
+.bag-drawer.open { transform:translateX(0); visibility:visible; }
+.bag-header { flex:0 0 auto; display:flex; align-items:flex-start; justify-content:space-between; padding:28px 28px 22px; border-bottom:1px solid rgba(255,255,255,.1); }
+.bag-eyebrow { display:block; margin-bottom:5px; font-family:Inter,Arial,sans-serif; font-size:9px; font-weight:800; letter-spacing:.22em; color:#777; }
+.bag-header h2 { margin:0; font-family:"Barlow Condensed",Arial,sans-serif; font-size:34px; font-weight:800; line-height:.95; letter-spacing:.02em; }
+.bag-close { width:38px; height:38px; padding:0; border:1px solid rgba(255,255,255,.16); background:transparent; color:#fff; font-family:Arial,sans-serif; font-size:27px; font-weight:300; line-height:1; display:grid; place-items:center; transition:background .2s ease,color .2s ease,border-color .2s ease; }
+.bag-close:hover { background:#fff; color:#000; border-color:#fff; }
+.bag-items { flex:1 1 auto; min-height:0; overflow-y:auto; padding:20px 28px; scrollbar-width:thin; scrollbar-color:#444 transparent; }
+.bag-items::-webkit-scrollbar { width:5px; }
+.bag-items::-webkit-scrollbar-track { background:transparent; }
+.bag-items::-webkit-scrollbar-thumb { background:#444; }
+.empty-bag { min-height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px 10px; }
+.empty-bag-icon { display:block; margin-bottom:18px; font-size:42px; line-height:1; color:#555; }
+.empty-bag h3 { margin:0 0 8px; font-family:"Barlow Condensed",Arial,sans-serif; font-size:28px; font-weight:800; letter-spacing:.03em; }
+.empty-bag p { max-width:250px; margin:0 0 25px; font-family:Inter,Arial,sans-serif; font-size:10px; line-height:1.6; letter-spacing:.08em; color:#777; }
+.continue-shopping { padding:13px 20px; border:1px solid rgba(255,255,255,.3); background:transparent; color:#fff; font-family:Inter,Arial,sans-serif; font-size:10px; font-weight:800; letter-spacing:.08em; transition:background .2s ease,color .2s ease; }
+.continue-shopping:hover { background:#fff; color:#000; }
+.bag-item { position:relative; display:grid; grid-template-columns:82px 1fr; gap:15px; padding:0 0 20px; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,.09); }
+.bag-item-image { width:82px; height:100px; background:#151515; overflow:hidden; }
+.bag-item-image img { width:100%; height:100%; display:block; object-fit:cover; }
+.bag-item-info { min-width:0; display:flex; flex-direction:column; }
+.bag-item-name { margin:0 25px 5px 0; font-family:"Barlow Condensed",Arial,sans-serif; font-size:20px; font-weight:700; line-height:1; text-transform:uppercase; }
+.bag-item-price { margin-bottom:7px; font-family:Inter,Arial,sans-serif; font-size:13px; font-weight:700; }
+.bag-item-size { margin-bottom:13px; font-family:Inter,Arial,sans-serif; font-size:9px; font-weight:700; letter-spacing:.1em; color:#777; }
+.bag-item-remove { position:absolute; top:0; right:0; width:22px; height:22px; padding:0; border:0; background:transparent; color:#666; font-size:17px; transition:color .2s ease; }
+.bag-item-remove:hover { color:#fff; }
+.bag-quantity { display:inline-flex; align-items:center; width:max-content; border:1px solid rgba(255,255,255,.16); }
+.bag-quantity button { width:28px; height:28px; padding:0; border:0; background:transparent; color:#fff; font-size:15px; transition:background .2s ease; }
+.bag-quantity button:hover { background:rgba(255,255,255,.1); }
+.bag-quantity-value { min-width:30px; text-align:center; font-family:Inter,Arial,sans-serif; font-size:10px; font-weight:700; }
+.bag-footer { flex:0 0 auto; padding:20px 28px 28px; border-top:1px solid rgba(255,255,255,.1); background:#0b0b0b; }
+.bag-subtotal { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.bag-subtotal span { font-family:Inter,Arial,sans-serif; font-size:10px; font-weight:800; letter-spacing:.12em; color:#777; }
+.bag-subtotal strong { font-family:"Barlow Condensed",Arial,sans-serif; font-size:25px; font-weight:800; }
+.bag-note { margin:0 0 17px; font-family:Inter,Arial,sans-serif; font-size:8px; line-height:1.5; letter-spacing:.06em; color:#666; }
+.bag-checkout { width:100%; min-height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; border:1px solid #fff; background:#fff; color:#000; font-family:Inter,Arial,sans-serif; font-size:11px; font-weight:900; letter-spacing:.12em; transition:background .2s ease,color .2s ease; }
+.bag-checkout span { font-size:18px; }
+.bag-checkout:hover { background:transparent; color:#fff; }
+.bag-checkout:disabled { opacity:.55; cursor:wait; }
+@media (max-width:600px) {
+  .bag-drawer { width:100%; max-width:100%; }
+  .bag-header { padding:22px 20px 18px; }
+  .bag-items { padding:18px 20px; }
+  .bag-footer { padding:18px 20px 22px; }
+  .product-actions { flex-wrap:wrap; justify-content:flex-end; }
+  .add-to-bag { padding:0 14px; }
+}
+/* =========================================================
+   PRODUCT GRID — FIT + AUTO NEW ROWS
+========================================================= */
+
+.products {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+  grid-auto-flow: row;
+}
+
+.product-card {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Make the product image fit inside its card */
+.product-image {
+  width: 100%;
+  height: 330px;
+  min-width: 0;
+  overflow: hidden;
+
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+}
+
+/* Keep the product information inside the card */
+.product-info {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.product-info h3,
+.product-info p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-meta {
+  width: 100%;
+  min-width: 0;
+}
+
+.product-actions {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .product-image {
+    height: 300px;
+  }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .product-image {
+    height: 210px;
+  }
+
+  .product-info {
+    padding: 12px;
+  }
+
+  .product-info h3 {
+    font-size: 18px;
+  }
+
+  .product-actions {
+    flex-wrap: wrap;
+  }
+
+  .size-select {
+    max-width: 100%;
+  }
+
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .products {
+    grid-template-columns: 1fr;
+  }
+
+  .product-image {
+    height: 260px;
+  }
+
+}
+/* GYM T-shirt */
+.product-card:nth-child(3) .product-image {
+  background-size: 145% !important;
+}
+
+/* MMA T-shirt */
+.product-card:nth-child(4) .product-image {
+  background-size: 140% !important;
+}
+/* =========================================================
+   MOBILE — COMPACT TOP + TRAINING SECTION
+   Desktop is NOT affected
+========================================================= */
+
+@media (max-width: 560px) {
+
+  /* =======================================================
+     HEADER
+  ======================================================= */
+
+  .header {
+    min-height: 62px !important;
+    height: 62px !important;
+    padding: 0 14px !important;
+  }
+
+  .logo {
+    gap: 8px !important;
+  }
+
+  .logo-box {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .logo b {
+    font-size: 9px !important;
+  }
+
+  .logo small {
+    font-size: 5px !important;
+    letter-spacing: .12em !important;
+  }
+
+  .hamb {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+
+  /* =======================================================
+     HERO / TOP SECTION
+  ======================================================= */
+
+  .hero {
+    min-height: 520px !important;
+    height: auto !important;
+    padding: 55px 18px 45px !important;
+  }
+
+  .hero h1 {
+    font-size: 58px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 0 !important;
+  }
+
+  .hero p {
+    max-width: 330px !important;
+    margin-top: 28px !important;
+    font-size: 11px !important;
+    line-height: 1.7 !important;
+  }
+
+  .hero-grid {
+    right: -25vw !important;
+    width: 90vw !important;
+    height: 55vh !important;
+  }
+
+  .hero-stamp {
+    right: 12px !important;
+    bottom: 12% !important;
+  }
+
+  .hero-actions {
+    margin-top: 25px !important;
+    gap: 12px !important;
+  }
+
+
+  /* =======================================================
+     TRAINING SECTION
+  ======================================================= */
+
+  .intro {
+    padding: 48px 18px 55px !important;
+  }
+
+  .intro-main {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    margin: 20px 0 35px !important;
+  }
+
+  .intro h2 {
+    font-size: 55px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 0 !important;
+  }
+
+  .intro-main p {
+    max-width: 100% !important;
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+    margin: 0 !important;
+  }
+
+  .line-link {
+    margin-top: 12px !important;
+    padding-bottom: 6px !important;
+    font-size: 8px !important;
+  }
+
+  .line-link span {
+    margin-left: 15px !important;
+  }
+
+
+  /* =======================================================
+     TRAINING CARDS
+  ======================================================= */
+
+  .disciplines {
+    grid-template-columns: 1fr !important;
+    border-top: 1px solid #282828 !important;
+  }
+
+  .disciplines article {
+    min-height: 145px !important;
+    height: 145px !important;
+
+    padding: 16px 15px !important;
+
+    border-right: 0 !important;
+    border-bottom: 1px solid #282828 !important;
+  }
+
+  .disciplines b {
+    font-size: 7px !important;
+  }
+
+  .disciplines h3 {
+    font-size: 29px !important;
+    line-height: .9 !important;
+
+    margin: 30px 0 6px !important;
+  }
+
+  .disciplines p {
+    max-width: 280px !important;
+
+    font-size: 9px !important;
+    line-height: 1.45 !important;
+
+    margin: 0 !important;
+  }
+
+  .disciplines span {
+    right: 15px !important;
+    bottom: 15px !important;
+
+    font-size: 13px !important;
+  }
+
+
+  /* =======================================================
+     REDUCE SPACE BEFORE SHOP
+  ======================================================= */
+
+  .intro + .shop {
+    padding-top: 55px !important;
+  }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .header {
+    min-height: 58px !important;
+    height: 58px !important;
+  }
+
+  .hero {
+    min-height: 470px !important;
+    padding-top: 48px !important;
+  }
+
+  .hero h1 {
+    font-size: 52px !important;
+  }
+
+  .intro {
+    padding-top: 42px !important;
+  }
+
+  .intro h2 {
+    font-size: 50px !important;
+  }
+
+  .disciplines article {
+    min-height: 135px !important;
+    height: 135px !important;
+  }
+
+  .disciplines h3 {
+    font-size: 27px !important;
+    margin-top: 27px !important;
+  }
+
+}
+/* =========================================================
+   MOBILE — TEAM → BOTTOM COMPACT OVERRIDE
+   Desktop is NOT affected
+========================================================= */
+
+@media (max-width: 560px) {
+
+  /* =======================================================
+     TEAM — 04 / THE TEAM
+  ======================================================= */
+
+  .team {
+    padding: 55px 18px 60px !important;
+  }
+
+  .team-head {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    margin: 20px 0 32px !important;
+  }
+
+  .team h2 {
+    font-size: 54px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 0 !important;
+  }
+
+  .team-head > p {
+    max-width: 100% !important;
+    font-size: 10px !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  /* TEAM CARDS */
+
+  .team-cards {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .team-cards article {
+    padding: 8px !important;
+  }
+
+  .avatar {
+    height: 210px !important;
+    min-height: 210px !important;
+    font-size: 65px !important;
+  }
+
+  .team-cards h3 {
+    font-size: 12px !important;
+    margin: 12px 4px 4px !important;
+  }
+
+  .team-cards p {
+    font-size: 8px !important;
+    margin: 0 4px 9px !important;
+    line-height: 1.4 !important;
+  }
+
+
+  /* =======================================================
+     EVENTS
+  ======================================================= */
+
+  .events {
+    padding: 55px 18px 60px !important;
+  }
+
+  .event-head {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    margin: 20px 0 30px !important;
+  }
+
+  .events h2 {
+    font-size: 54px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 0 !important;
+  }
+
+  .event-list article {
+    grid-template-columns: 22px 58px 1fr 18px !important;
+    gap: 5px !important;
+    padding: 18px 0 !important;
+  }
+
+  .event-list span,
+  .event-list time {
+    font-size: 7px !important;
+  }
+
+  .event-list h3 {
+    font-size: 21px !important;
+    line-height: .95 !important;
+  }
+
+  .event-list p {
+    font-size: 8px !important;
+    line-height: 1.4 !important;
+    margin: 3px 0 0 !important;
+  }
+
+  .event-list b {
+    font-size: 12px !important;
+  }
+
+
+  /* =======================================================
+     REVIEWS
+  ======================================================= */
+
+  .reviews {
+    padding: 50px 18px !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .review-big {
+    font-size: 65px !important;
+    line-height: .8 !important;
+  }
+
+  .review-big span {
+    font-size: 18px !important;
+  }
+
+  .stars {
+    font-size: 10px !important;
+    letter-spacing: .15em !important;
+  }
+
+  .reviews p {
+    font-size: 22px !important;
+    line-height: 1 !important;
+    margin: 10px 0 !important;
+    max-width: 100% !important;
+  }
+
+  .reviews small,
+  .review-note {
+    font-size: 7px !important;
+  }
+
+
+  /* =======================================================
+     CONTACT
+  ======================================================= */
+
+  .contact {
+    padding: 55px 18px 60px !important;
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .contact h2 {
+    font-size: 54px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 20px 0 !important;
+  }
+
+  .contact p {
+    font-size: 10px !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  .contact-actions {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    margin-top: 20px !important;
+  }
+
+  .contact-actions .btn,
+  .contact-actions .ghost {
+    padding: 11px 13px !important;
+    font-size: 8px !important;
+  }
+
+  .map-card {
+    min-height: 250px !important;
+    height: 250px !important;
+  }
+
+  .pin {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 27px !important;
+  }
+
+  .map-card span {
+    font-size: 7px !important;
+    bottom: 12px !important;
+    left: 12px !important;
+  }
+
+
+  /* =======================================================
+     NEWSLETTER
+  ======================================================= */
+
+  .newsletter {
+    padding: 55px 18px !important;
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .newsletter h2 {
+    font-size: 54px !important;
+    line-height: .82 !important;
+    letter-spacing: -.045em !important;
+    margin: 20px 0 0 !important;
+  }
+
+  .newsletter form {
+    display: flex !important;
+    border-bottom: 1px solid #999 !important;
+  }
+
+  .newsletter input {
+    padding: 13px 0 !important;
+    font-size: 9px !important;
+  }
+
+  .newsletter button {
+    width: auto !important;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    font-size: 8px !important;
+  }
+
+
+  /* =======================================================
+     FOOTER
+  ======================================================= */
+
+  footer {
+    padding: 22px 18px !important;
+    display: block !important;
+  }
+
+  footer > small {
+    display: block !important;
+    font-size: 7px !important;
+    line-height: 1.5 !important;
+  }
+
+  footer .footer-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin: 18px 0 !important;
+  }
+
+  footer .footer-links a {
+    margin-left: 0 !important;
+    font-size: 7px !important;
+    letter-spacing: .08em !important;
+  }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .team {
+    padding: 45px 15px 50px !important;
+  }
+
+  .team h2,
+  .events h2,
+  .contact h2,
+  .newsletter h2 {
+    font-size: 48px !important;
+  }
+
+  .team-head {
+    margin-bottom: 25px !important;
+  }
+
+  .avatar {
+    height: 185px !important;
+    min-height: 185px !important;
+  }
+
+  .events {
+    padding: 45px 15px 50px !important;
+  }
+
+  .event-list article {
+    grid-template-columns: 20px 52px 1fr 15px !important;
+    padding: 15px 0 !important;
+  }
+
+  .event-list h3 {
+    font-size: 19px !important;
+  }
+
+  .reviews {
+    padding: 45px 15px !important;
+  }
+
+  .review-big {
+    font-size: 58px !important;
+  }
+
+  .reviews p {
+    font-size: 20px !important;
+  }
+
+  .contact {
+    padding: 45px 15px 50px !important;
+  }
+
+  .map-card {
+    height: 220px !important;
+    min-height: 220px !important;
+  }
+
+  .newsletter {
+    padding: 45px 15px !important;
+  }
+
+  footer {
+    padding: 20px 15px !important;
+  }
+
+}
+/* =======================================================
+   MOBILE — TRAINING / TEAM / FIGHT CARDS
+   2 cards top + 1 card below
+======================================================= */
+
+@media (max-width: 560px) {
+
+  .disciplines {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    border-top: 1px solid #282828 !important;
+  }
+
+  .disciplines article {
+    min-height: 135px !important;
+    height: 135px !important;
+
+    padding: 14px 12px !important;
+
+    border-right: 1px solid #282828 !important;
+    border-bottom: 1px solid #282828 !important;
+  }
+
+  /* Remove right border from every second card */
+  .disciplines article:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  .disciplines b {
+    font-size: 6px !important;
+  }
+
+  .disciplines h3 {
+    font-size: 22px !important;
+    line-height: .9 !important;
+
+    margin: 28px 0 7px !important;
+  }
+
+  .disciplines p {
+    max-width: 150px !important;
+
+    font-size: 8px !important;
+    line-height: 1.35 !important;
+
+    margin: 0 !important;
+  }
+
+  .disciplines span {
+    right: 12px !important;
+    bottom: 12px !important;
+
+    font-size: 11px !important;
+  }
+
+}
+
+
+/* =======================================================
+   EXTRA SMALL PHONES
+======================================================= */
+
+@media (max-width: 380px) {
+
+  .disciplines article {
+    min-height: 125px !important;
+    height: 125px !important;
+    padding: 12px 10px !important;
+  }
+
+  .disciplines h3 {
+    font-size: 20px !important;
+    margin-top: 25px !important;
+  }
+
+  .disciplines p {
+    font-size: 7px !important;
+    max-width: 135px !important;
+  }
+
+}
