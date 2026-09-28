@@ -29,6 +29,739 @@ content="View your Revolution MMA & Fitness orders."
   <!-- Orders page styles -->
 
   <link rel="stylesheet" href="orders.css">
+
+  <style>
+/* =========================================================
+   ORDERS PAGE — FINAL OVERRIDE
+   This overrides account.css only on the Orders page
+========================================================= */
+
+body:has(#ordersList) {
+  background: #090909 !important;
+  color: #fff !important;
+}
+
+
+/* =========================================================
+   MAIN ORDERS CONTAINER
+========================================================= */
+
+body:has(#ordersList) .account-main {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 70px 40px !important;
+}
+
+
+/* =========================================================
+   ORDERS CARD
+========================================================= */
+
+body:has(#ordersList) .account-card {
+  width: 100% !important;
+  max-width: 1250px !important;
+  min-height: auto !important;
+
+  display: grid !important;
+  grid-template-columns: 340px minmax(0, 1fr) !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  background: #f5f5f2 !important;
+  border: 1px solid #292929 !important;
+
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+body:has(#ordersList) .account-intro {
+  width: auto !important;
+  min-width: 0 !important;
+
+  padding: 65px 48px !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(225, 6, 0, 0.12),
+      transparent 45%
+    ),
+    #101010 !important;
+
+  color: #fff !important;
+}
+
+
+body:has(#ordersList) .account-intro h1 {
+  margin: 22px 0 28px !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: clamp(60px, 6vw, 92px) !important;
+  font-weight: 900 !important;
+  line-height: 0.82 !important;
+  letter-spacing: -0.04em !important;
+}
+
+
+body:has(#ordersList) .account-intro h1 em {
+  color: #666 !important;
+  font-style: normal !important;
+}
+
+
+body:has(#ordersList) .account-intro > p {
+  max-width: 250px !important;
+  color: #999 !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+
+
+body:has(#ordersList) .account-line {
+  margin: 40px 0 10px !important;
+  background: #333 !important;
+}
+
+
+/* =========================================================
+   LEFT NOTES
+========================================================= */
+
+body:has(#ordersList) .account-note {
+  display: grid !important;
+  grid-template-columns: 35px 1fr !important;
+  gap: 12px !important;
+
+  padding: 18px 0 !important;
+
+  border-bottom: 1px solid #292929 !important;
+}
+
+
+body:has(#ordersList) .account-note span {
+  color: #777 !important;
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+
+body:has(#ordersList) .account-note p {
+  margin: 0 !important;
+  color: #fff !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+}
+
+
+body:has(#ordersList) .account-note small {
+  display: block !important;
+  margin-top: 7px !important;
+
+  color: #777 !important;
+
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+body:has(#ordersList) .account-panel {
+  width: auto !important;
+  min-width: 0 !important;
+
+  display: block !important;
+
+  padding: 65px 60px !important;
+
+  background: #0b0b0b !important;
+  color: #111 !important;
+
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   RIGHT HEADING
+========================================================= */
+
+body:has(#ordersList) .account-panel .account-eyebrow {
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.2em !important;
+}
+
+
+body:has(#ordersList) .account-panel h2 {
+  margin: 12px 0 10px !important;
+
+  color: #111 !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: clamp(55px, 6vw, 90px) !important;
+  font-weight: 900 !important;
+  line-height: 0.8 !important;
+  letter-spacing: -0.04em !important;
+}
+
+
+body:has(#ordersList) .account-panel h2 em {
+  color: #666 !important;
+  font-style: normal !important;
+}
+
+
+body:has(#ordersList) #ordersDescription {
+  margin: 18px 0 28px !important;
+
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.6 !important;
+}
+
+
+/* =========================================================
+   ORDERS LIST
+========================================================= */
+
+body:has(#ordersList) .orders-list {
+  width: 100% !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  gap: 14px !important;
+
+  margin: 0 !important;
+}
+
+
+/* =========================================================
+   ORDER CARD
+========================================================= */
+
+body:has(#ordersList) .order-card {
+  position: relative !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+
+  padding: 22px !important;
+
+  background: #111 !important;
+  border: 1px solid #292929 !important;
+
+  color: #fff !important;
+
+  overflow: hidden !important;
+}
+
+
+body:has(#ordersList) .order-card::before {
+  content: "" !important;
+
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+
+  width: 4px !important;
+  height: 100% !important;
+
+  background: #292929 !important;
+}
+
+
+/* =========================================================
+   ORDER TOP
+========================================================= */
+
+body:has(#ordersList) .order-card-top {
+  width: 100% !important;
+
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+
+  gap: 20px !important;
+
+  padding-bottom: 18px !important;
+
+  border-bottom: 1px solid #292929 !important;
+}
+
+
+body:has(#ordersList) .order-label {
+  display: block !important;
+
+  margin-bottom: 5px !important;
+
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.2em !important;
+}
+
+
+body:has(#ordersList) .order-card-top h3 {
+  margin: 0 !important;
+
+  color: #fff !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+body:has(#ordersList) .order-status {
+  flex-shrink: 0 !important;
+
+  padding: 7px 11px !important;
+
+  background: rgba(225, 6, 0, 0.08) !important;
+  border: 1px solid rgba(225, 6, 0, 0.5) !important;
+
+  color: #666 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.12em !important;
+}
+
+
+/* =========================================================
+   ORDER INFO
+========================================================= */
+
+body:has(#ordersList) .order-card-info {
+  width: 100% !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+
+  gap: 1px !important;
+
+  margin: 18px 0 0 !important;
+
+  background: #292929 !important;
+  border: 1px solid #292929 !important;
+}
+
+
+body:has(#ordersList) .order-card-info > div {
+  min-width: 0 !important;
+
+  padding: 14px !important;
+
+  background: #111 !important;
+}
+
+
+body:has(#ordersList) .order-card-info span {
+  display: block !important;
+
+  margin-bottom: 6px !important;
+
+  color: #666 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.15em !important;
+}
+
+
+body:has(#ordersList) .order-card-info strong {
+  display: block !important;
+
+  color: #fff !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+}
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+body:has(#ordersList) .order-items {
+  width: 100% !important;
+
+  margin-top: 18px !important;
+
+  border-top: 1px solid #292929 !important;
+}
+
+
+body:has(#ordersList) .order-item {
+  width: 100% !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  gap: 20px !important;
+
+  padding: 14px 0 !important;
+
+  border-bottom: 1px solid #242424 !important;
+}
+
+
+body:has(#ordersList) .order-item strong {
+  color: #fff !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+
+
+body:has(#ordersList) .order-item small {
+  display: block !important;
+
+  margin-top: 4px !important;
+
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+}
+
+
+body:has(#ordersList) .order-item > span {
+  flex-shrink: 0 !important;
+
+  color: #aaa !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+body:has(#ordersList) .orders-empty {
+  position: relative !important;
+
+  width: 100% !important;
+  min-height: 300px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 45px 30px !important;
+
+  background: #111 !important;
+  border: 1px solid #292929 !important;
+
+  text-align: center !important;
+
+  overflow: hidden !important;
+}
+
+
+body:has(#ordersList) .orders-empty::before {
+  content: "" !important;
+
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+
+  width: 100% !important;
+  height: 4px !important;
+
+  background: #666 !important;
+}
+
+
+body:has(#ordersList) .orders-empty-number {
+  margin: 0 0 12px !important;
+
+  color: #333 !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 78px !important;
+  font-weight: 900 !important;
+  line-height: 0.8 !important;
+}
+
+
+body:has(#ordersList) .orders-empty h3 {
+  margin: 10px 0 !important;
+
+  color: #fff !important;
+
+  font-family: "Barlow Condensed", sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  line-height: 0.9 !important;
+}
+
+
+body:has(#ordersList) .orders-empty p {
+  max-width: 320px !important;
+
+  margin: 0 auto 22px !important;
+
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.7 !important;
+}
+
+
+/* =========================================================
+   SHOP BUTTON
+========================================================= */
+
+body:has(#ordersList) .orders-shop-button {
+  display: inline-flex !important;
+
+  width: auto !important;
+  min-width: 190px !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  padding: 14px 20px !important;
+
+  background: #666 !important;
+  color: #fff !important;
+
+  border: 0 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.12em !important;
+
+  text-decoration: none !important;
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
+
+body:has(#ordersList) #ordersStatus {
+  margin-top: 16px !important;
+
+  color: #777 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+body:has(#ordersList) .account-footer {
+  width: 100% !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  body:has(#ordersList) .account-main {
+    padding: 45px 20px !important;
+  }
+
+  body:has(#ordersList) .account-card {
+    grid-template-columns: 280px minmax(0, 1fr) !important;
+  }
+
+  body:has(#ordersList) .account-intro {
+    padding: 45px 30px !important;
+  }
+
+  body:has(#ordersList) .account-panel {
+    padding: 45px 30px !important;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  body:has(#ordersList) .account-main {
+    padding: 25px 12px !important;
+  }
+
+
+  body:has(#ordersList) .account-card {
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+  }
+
+
+  body:has(#ordersList) .account-intro {
+    width: 100% !important;
+
+    padding: 42px 28px !important;
+  }
+
+
+  body:has(#ordersList) .account-intro h1 {
+    font-size: 65px !important;
+  }
+
+
+  body:has(#ordersList) .account-panel {
+    width: 100% !important;
+
+    padding: 40px 22px !important;
+  }
+
+
+  body:has(#ordersList) .account-panel h2 {
+    font-size: 65px !important;
+  }
+
+
+  body:has(#ordersList) .order-card {
+    padding: 18px !important;
+  }
+
+
+  body:has(#ordersList) .order-card-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+
+  body:has(#ordersList) .order-card-info {
+    grid-template-columns: 1fr !important;
+  }
+
+
+  body:has(#ordersList) .order-card-info > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 15px !important;
+  }
+
+
+  body:has(#ordersList) .order-card-info span {
+    margin: 0 !important;
+  }
+
+
+  body:has(#ordersList) .order-card-info strong {
+    text-align: right !important;
+  }
+
+
+  body:has(#ordersList) .orders-empty {
+    min-height: 280px !important;
+    padding: 35px 18px !important;
+  }
+
+
+  body:has(#ordersList) .orders-empty-number {
+    font-size: 65px !important;
+  }
+
+
+  body:has(#ordersList) .orders-empty h3 {
+    font-size: 28px !important;
+  }
+
+
+  body:has(#ordersList) .orders-shop-button {
+    width: 100% !important;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  body:has(#ordersList) .account-main {
+    padding: 15px 8px !important;
+  }
+
+
+  body:has(#ordersList) .account-intro {
+    padding: 35px 22px !important;
+  }
+
+
+  body:has(#ordersList) .account-panel {
+    padding: 32px 16px !important;
+  }
+
+
+  body:has(#ordersList) .account-panel h2 {
+    font-size: 56px !important;
+  }
+
+
+  body:has(#ordersList) .account-intro h1 {
+    font-size: 58px !important;
+  }
+
+}
+
+
+</style>
 </head>
 
 <body>
