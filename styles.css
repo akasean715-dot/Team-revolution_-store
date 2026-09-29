@@ -937,3 +937,142 @@
     margin: 0 3px 7px !important;
   }
 }
+/* =========================================================
+   FINAL MOBILE PRODUCT GRID FIX
+   Android + small phones = 2 PRODUCTS PER ROW
+   Desktop and tablet remain unchanged
+========================================================= */
+
+@media (max-width: 560px) {
+
+  .products {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+  }
+
+  .product-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .product-image {
+    width: 100% !important;
+    height: 175px !important;
+    min-height: 175px !important;
+    overflow: hidden !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+  }
+
+  .product-info {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-info h3 {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    margin: 0 0 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .product-info p {
+    display: none !important;
+  }
+
+  .product-meta {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .product-actions {
+    width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .product-actions .price,
+  .product-meta strong {
+    font-size: 16px !important;
+    white-space: nowrap !important;
+  }
+
+  .size-select {
+    width: auto !important;
+    max-width: 58px !important;
+    min-width: 48px !important;
+    height: 38px !important;
+    padding: 0 5px !important;
+    font-size: 8px !important;
+  }
+
+  .add,
+  .add-to-bag {
+    min-width: 0 !important;
+    padding: 0 4px !important;
+    font-size: 8px !important;
+    white-space: nowrap !important;
+  }
+}
+
+
+/* =========================================================
+   EXTRA SMALL ANDROID PHONES
+   IMPORTANT: KEEP TWO PRODUCTS PER ROW
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .product-image {
+    height: 160px !important;
+    min-height: 160px !important;
+  }
+
+  .product-info {
+    padding: 8px !important;
+  }
+
+  .product-info h3 {
+    font-size: 14px !important;
+  }
+
+  .product-actions {
+    gap: 3px !important;
+  }
+
+  .product-actions .price,
+  .product-meta strong {
+    font-size: 14px !important;
+  }
+
+  .size-select {
+    max-width: 52px !important;
+    min-width: 44px !important;
+    height: 34px !important;
+    font-size: 7px !important;
+  }
+
+  .add,
+  .add-to-bag {
+    font-size: 7px !important;
+    padding: 0 2px !important;
+  }
+}
