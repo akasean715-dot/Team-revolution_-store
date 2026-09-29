@@ -864,3 +864,76 @@
   }
 
 }
+/* =========================================================
+   FINAL MOBILE TEAM CARD FIX
+   Only affects the 3 cards inside .team-cards.
+   Desktop remains completely unchanged.
+========================================================= */
+@media (max-width: 560px) {
+  .team-cards {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .team-cards article {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 8px !important;
+    margin: 0 !important;
+  }
+
+  .team-cards article:last-child {
+    grid-column: 1 / -1 !important;
+    display: block !important;
+  }
+
+  .team-cards .avatar {
+    width: 100% !important;
+    height: 125px !important;
+    min-height: 125px !important;
+    margin: 0 !important;
+    font-size: 43px !important;
+    letter-spacing: -.07em !important;
+  }
+
+  .team-cards h3 {
+    font-size: 13px !important;
+    line-height: 1 !important;
+    margin: 12px 4px 5px !important;
+  }
+
+  .team-cards p {
+    font-size: 8px !important;
+    line-height: 1.35 !important;
+    margin: 0 4px 8px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .team-cards {
+    gap: 6px !important;
+  }
+
+  .team-cards article {
+    padding: 6px !important;
+  }
+
+  .team-cards .avatar {
+    height: 105px !important;
+    min-height: 105px !important;
+    font-size: 36px !important;
+  }
+
+  .team-cards h3 {
+    font-size: 12px !important;
+    margin: 10px 3px 4px !important;
+  }
+
+  .team-cards p {
+    font-size: 7px !important;
+    margin: 0 3px 7px !important;
+  }
+}
