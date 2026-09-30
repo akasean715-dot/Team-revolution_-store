@@ -1353,3 +1353,12 @@
     margin-left: 2px !important;
   }
 }
+/* =========================================================
+   MOBILE — HIDE HAMBURGER MENU
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .hamb {
+    display: none !important;
+  }
+}
