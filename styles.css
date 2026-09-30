@@ -1076,3 +1076,74 @@
     padding: 0 2px !important;
   }
 }
+
+/* =========================================================
+   FINAL PRODUCT IMAGE FIT
+   Keeps every product image filled consistently.
+   Does not change product data, cart, Firebase or JS.
+========================================================= */
+
+.products {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.product-card {
+  min-width: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.product-image,
+.product-card:nth-child(3) .product-image,
+.product-card:nth-child(4) .product-image {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 4 / 5 !important;
+  overflow: hidden !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+
+@media (max-width: 900px) {
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .product-image,
+  .product-card:nth-child(3) .product-image,
+  .product-card:nth-child(4) .product-image {
+    aspect-ratio: 4 / 5 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .product-image,
+  .product-card:nth-child(3) .product-image,
+  .product-card:nth-child(4) .product-image {
+    aspect-ratio: 5 / 6 !important;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .product-image,
+  .product-card:nth-child(3) .product-image,
+  .product-card:nth-child(4) .product-image {
+    aspect-ratio: 5 / 6 !important;
+  }
+}
