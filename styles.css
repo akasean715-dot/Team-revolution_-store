@@ -1147,3 +1147,40 @@
     aspect-ratio: 5 / 6 !important;
   }
 }
+
+/* =========================================================
+   MOBILE ACCOUNT BUTTON — SHOW BESIDE BAG
+   Desktop remains unchanged.
+========================================================= */
+@media (max-width: 560px) {
+  .head-tools {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .head-tools .round {
+    display: grid !important;
+    place-items: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    flex: 0 0 34px !important;
+    border-radius: 50% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .head-tools .bag {
+    height: 34px !important;
+    padding: 0 10px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .head-tools .hamb {
+    width: 34px !important;
+    height: 34px !important;
+    flex: 0 0 34px !important;
+  }
+}
