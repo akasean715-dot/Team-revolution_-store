@@ -1362,3 +1362,198 @@
     display: none !important;
   }
 }
+
+/* =========================================================
+   FINAL MOBILE HEADER — CLEAN / NO HAMBURGER
+   This override is intentionally last so it wins over older
+   mobile header rules in this stylesheet.
+   Desktop is untouched.
+========================================================= */
+@media (max-width: 600px) {
+  .header {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 7px !important;
+    gap: 4px !important;
+    overflow: hidden !important;
+  }
+
+  /* Give the brand enough room so TEAM REVOLUTION is not clipped. */
+  .logo,
+  .header .logo {
+    flex: 0 0 96px !important;
+    width: 96px !important;
+    min-width: 96px !important;
+    max-width: 96px !important;
+    gap: 5px !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  .logo-box,
+  .header .logo-box {
+    flex: 0 0 25px !important;
+    width: 25px !important;
+    min-width: 25px !important;
+    height: 25px !important;
+    font-size: 17px !important;
+  }
+
+  .logo b,
+  .header .logo b {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    font-size: 6.5px !important;
+    line-height: .95 !important;
+    letter-spacing: .02em !important;
+  }
+
+  .logo small,
+  .header .logo small {
+    display: block !important;
+    white-space: nowrap !important;
+    font-size: 3.5px !important;
+    line-height: 1 !important;
+    letter-spacing: .07em !important;
+    margin-top: 2px !important;
+  }
+
+  /* All five navigation links stay on one line. */
+  .header nav,
+  .header > nav {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+
+  .header nav a,
+  .header > nav a {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    font-size: 5.7px !important;
+    letter-spacing: .035em !important;
+    line-height: 1 !important;
+  }
+
+  /* Account + BAG remain. */
+  .head-tools,
+  .header .head-tools {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+  }
+
+  .head-tools .round,
+  .header .head-tools .round {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 25px !important;
+    min-width: 25px !important;
+    height: 25px !important;
+    flex: 0 0 25px !important;
+    padding: 0 !important;
+  }
+
+  .head-tools .bag,
+  .header .head-tools .bag {
+    height: 25px !important;
+    min-width: 44px !important;
+    flex: 0 0 auto !important;
+    padding: 0 4px !important;
+    font-size: 6px !important;
+    white-space: nowrap !important;
+  }
+
+  /* The hamburger is completely removed from the mobile layout. */
+  .hamb,
+  .header .hamb,
+  .head-tools .hamb,
+  .header .head-tools .hamb {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    height: 0 !important;
+    flex: 0 0 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .header {
+    padding: 0 5px !important;
+    gap: 3px !important;
+  }
+
+  .logo,
+  .header .logo {
+    flex-basis: 92px !important;
+    width: 92px !important;
+    min-width: 92px !important;
+    max-width: 92px !important;
+  }
+
+  .logo b,
+  .header .logo b {
+    font-size: 6.2px !important;
+  }
+
+  .logo small,
+  .header .logo small {
+    font-size: 3.2px !important;
+  }
+
+  .header nav,
+  .header > nav {
+    gap: 3px !important;
+  }
+
+  .header nav a,
+  .header > nav a {
+    font-size: 5.3px !important;
+    letter-spacing: .02em !important;
+  }
+
+  .head-tools,
+  .header .head-tools {
+    gap: 2px !important;
+  }
+
+  .head-tools .round,
+  .header .head-tools .round {
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    flex-basis: 24px !important;
+  }
+
+  .head-tools .bag,
+  .header .head-tools .bag {
+    min-width: 42px !important;
+    height: 24px !important;
+    font-size: 5.7px !important;
+  }
+}
