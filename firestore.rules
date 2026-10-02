@@ -20,8 +20,12 @@ service cloud.firestore {
     }
 
     match /orders/{orderId} {
-      allow create: if true;
-      allow read, update, delete: if admin();
+      allow read: if admin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if admin();
+    }
+
+    match /paymentIntents/{paymentIntentId} {
+      allow read, write: if admin();
     }
 
     match /newsletter/{emailId} {

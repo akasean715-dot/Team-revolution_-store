@@ -1,0 +1,1 @@
+const params=new URLSearchParams(location.search);const money=v=>`₹${Number(v||0).toLocaleString("en-IN")}`;document.querySelector("#orderNumber").textContent=params.get("order")||"—";document.querySelector("#paymentId").textContent=params.get("payment")||"—";document.querySelector("#total").textContent=money(params.get("total"));

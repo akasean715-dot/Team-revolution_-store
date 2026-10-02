@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | The Revolution</title>
+  <meta name="description" content="Secure checkout for The Revolution MMA & Fitness Store.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+  <header class="checkout-header">
+    <a href="index.html" class="checkout-logo">
+      <span class="checkout-mark">R</span>
+      <span><strong>THE REVOLUTION</strong><small>MMA · FITNESS · SHILLONG</small></span>
+    </a>
+    <a href="index.html#shop" class="back-shop">← CONTINUE SHOPPING</a>
+  </header>
+
+  <main class="checkout-main">
+    <div class="checkout-intro">
+      <div class="eyebrow">THE REVOLUTION / CHECKOUT</div>
+      <h1>SECURE<br><em>CHECKOUT.</em></h1>
+      <p>Your order is almost ready. Review your details and continue to Razorpay's secure payment checkout.</p>
+    </div>
+
+    <div id="checkoutError" class="checkout-alert" hidden></div>
+
+    <section class="checkout-layout">
+      <form id="paymentForm" class="checkout-form" novalidate>
+        <div class="step-heading"><span>01</span><div><small>CONTACT</small><h2>YOUR DETAILS</h2></div></div>
+        <div class="field-grid">
+          <label class="field full"><span>EMAIL ADDRESS</span><input id="customerEmail" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+          <label class="field"><span>FULL NAME</span><input id="customerName" type="text" autocomplete="name" placeholder="Your name" required></label>
+          <label class="field"><span>PHONE</span><input id="customerPhone" type="tel" autocomplete="tel" placeholder="10-digit mobile number" required></label>
+        </div>
+
+        <div class="step-heading second"><span>02</span><div><small>BILLING / DELIVERY</small><h2>ADDRESS</h2></div></div>
+        <div class="field-grid">
+          <label class="field full"><span>ADDRESS</span><input id="address" type="text" autocomplete="street-address" placeholder="House / street / locality" required></label>
+          <label class="field"><span>CITY</span><input id="city" type="text" autocomplete="address-level2" placeholder="Shillong" required></label>
+          <label class="field"><span>STATE</span><input id="state" type="text" autocomplete="address-level1" placeholder="Meghalaya" required></label>
+          <label class="field"><span>PIN CODE</span><input id="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="793001" maxlength="6" required></label>
+        </div>
+
+        <div class="secure-note"><span>⌁</span><div><strong>SECURE PAYMENT</strong><p>Card numbers, CVV and UPI credentials are entered securely in Razorpay Checkout. This website does not store your sensitive payment details.</p></div></div>
+
+        <button id="payButton" class="pay-button" type="submit">REVIEW & PAY <span>↗</span></button>
+        <p class="gateway-note">Payments are processed securely by Razorpay.</p>
+      </form>
+
+      <aside class="order-summary">
+        <div class="summary-label">03 / ORDER SUMMARY</div>
+        <h2>YOUR <em>ORDER.</em></h2>
+        <div id="summaryItems" class="summary-items"></div>
+        <div class="summary-lines">
+          <div><span>SUBTOTAL</span><strong id="summarySubtotal">₹0</strong></div>
+          <div><span>SHIPPING</span><strong id="summaryShipping">FREE</strong></div>
+        </div>
+        <div class="summary-total"><span>TOTAL</span><strong id="summaryTotal">₹0</strong></div>
+        <div class="methods"><span>PAYMENT METHODS</span><div><b>UPI</b><b>CARDS</b><b>NETBANKING</b><b>WALLETS</b></div></div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="loadingOverlay" class="loading-overlay" hidden><div class="loading-card"><div class="loader"></div><strong>PREPARING SECURE CHECKOUT</strong><span>Please wait…</span></div></div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script type="module" src="payment.js"></script>
+</body>
+</html>

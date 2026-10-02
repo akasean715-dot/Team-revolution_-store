@@ -2,8 +2,6 @@ import { db, auth } from "./firebase.js";
 import {
   collection,
   getDocs,
-  addDoc,
-  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
@@ -345,7 +343,7 @@ function setupCart() {
     if (event.key === "Escape") closeBag();
   });
 
-  $("#bagCheckout")?.addEventListener("click", async () => {
+  $("#bagCheckout")?.addEventListener("click", () => {
     if (!cart.length) {
       toast("YOUR BAG IS EMPTY");
       return;
@@ -357,55 +355,7 @@ function setupCart() {
       return;
     }
 
-    const checkoutButton = $("#bagCheckout");
-    if (checkoutButton) {
-      checkoutButton.disabled = true;
-      checkoutButton.innerHTML = `CREATING ORDER... <span>↗</span>`;
-    }
-
-    try {
-      const total = cart.reduce(
-        (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0),
-        0
-      );
-
-      const orderItems = cart.map((item) => ({
-        productId: item.id,
-        name: item.name,
-        price: Number(item.price || 0),
-        quantity: Number(item.quantity || 1),
-        size: item.size || ""
-      }));
-
-      const orderNumber = `REV-${Date.now().toString().slice(-8)}`;
-
-      await addDoc(collection(db, "orders"), {
-        userId: currentUser.uid,
-        userEmail: currentUser.email || "",
-        orderNumber,
-        items: orderItems,
-        total,
-        status: "PROCESSING",
-        createdAt: serverTimestamp()
-      });
-
-      cart = [];
-      localStorage.removeItem(CART_KEY);
-      localStorage.removeItem(LEGACY_CART_KEY);
-      renderCart();
-      closeBag();
-      toast("ORDER PLACED SUCCESSFULLY");
-
-      window.setTimeout(() => { window.location.href = "orders.html"; }, 1200);
-    } catch (error) {
-      console.error("CREATE ORDER ERROR:", error);
-      toast("COULD NOT CREATE ORDER. PLEASE TRY AGAIN.");
-    } finally {
-      if (checkoutButton) {
-        checkoutButton.disabled = false;
-        checkoutButton.innerHTML = `CHECKOUT <span>↗</span>`;
-      }
-    }
+    window.location.href = "payment.html";
   });
 }
 
