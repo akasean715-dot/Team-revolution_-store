@@ -1574,3 +1574,26 @@
   display: block;
   object-fit: contain;
 }
+/* =========================================================
+   FINAL MOBILE BAG FIX
+   Keeps Checkout visible after returning from product page.
+   Desktop is NOT affected.
+========================================================= */
+
+@media (max-width: 600px) {
+  .bag-drawer {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .bag-items {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  .bag-footer {
+    flex: 0 0 auto !important;
+  }
+}
