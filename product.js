@@ -5,7 +5,8 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
 /* =========================================================
@@ -104,6 +105,8 @@ function getSizes(product) {
 
 let currentProduct = null;
 
+let currentUser = null;
+
 let productImages = [];
 
 let currentImageIndex = 0;
@@ -115,6 +118,15 @@ let quantity = 1;
 let relatedProducts = [];
 
 let relatedStart = 0;
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+});
 
 
 /* =========================================================
@@ -764,6 +776,31 @@ document.addEventListener("keydown", (event) => {
 
 continueShopping?.addEventListener("click", () => {
   closeBag();
+});
+
+
+/* CHECKOUT */
+
+$("#bagCheckout")?.addEventListener("click", () => {
+
+  const bag = getBag();
+
+  if (!bag.length) {
+    showToast("YOUR BAG IS EMPTY");
+    return;
+  }
+
+  if (!currentUser) {
+    showToast("PLEASE SIGN IN BEFORE CHECKOUT");
+
+    window.setTimeout(() => {
+      window.location.href = "account.html";
+    }, 900);
+
+    return;
+  }
+
+  window.location.href = "payment.html";
 });
 
 
