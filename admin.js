@@ -52,6 +52,7 @@ function showDashboard() {
   $("#logoutBtn").hidden = false;
 
   loadProducts();
+  loadOrders();
 }
 
 
@@ -1066,6 +1067,208 @@ $("#productForm")
     }
   );
 
+
+
+/* =========================================================
+   ORDERS
+   Reads only the existing Firestore orders collection.
+   Product management code above is left unchanged.
+========================================================= */
+
+let adminOrders = [];
+
+function orderDate(value) {
+  try {
+    const date = value?.toDate ? value.toDate() : new Date(value);
+    if (Number.isNaN(date.getTime())) return "DATE PENDING";
+    return date.toLocaleString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  } catch {
+    return "DATE PENDING";
+  }
+}
+
+function orderStatusClass(status) {
+  const value = String(status || "PROCESSING").toLowerCase();
+  if (value.includes("paid")) return "paid";
+  if (value.includes("cancel")) return "cancelled";
+  if (value.includes("pending")) return "pending";
+  return "";
+}
+
+function renderOrderDetails(order) {
+  const panel = $("#orderDetails");
+  if (!panel) return;
+
+  const customer = order.customer || {};
+  const items = Array.isArray(order.items) ? order.items : [];
+  const status = order.status || order.paymentStatus || "PROCESSING";
+  const paymentStatus = order.paymentStatus || status;
+  const total = Number(order.total || 0);
+
+  panel.innerHTML = `
+    <div class="order-details-head">
+      <div>
+        <h3>${escapeHtml(order.orderNumber || order.id || "ORDER")}</h3>
+        <span class="order-detail-status ${orderStatusClass(status)}">${escapeHtml(status)}</span>
+      </div>
+      <div class="order-details-meta">
+        ${escapeHtml(orderDate(order.createdAt))}<br>
+        ${escapeHtml(order.userEmail || customer.email || "NO EMAIL")}
+      </div>
+    </div>
+
+    <div class="order-info-grid">
+      <div class="order-info-block">
+        <h4>CUSTOMER INFORMATION</h4>
+        <p>
+          <span>NAME</span>${escapeHtml(customer.name || "NOT PROVIDED")}<br>
+          <span>EMAIL</span>${escapeHtml(customer.email || order.userEmail || "NOT PROVIDED")}<br>
+          <span>PHONE</span>${escapeHtml(customer.phone || "NOT PROVIDED")}
+        </p>
+      </div>
+
+      <div class="order-info-block">
+        <h4>SHIPPING ADDRESS</h4>
+        <p>
+          ${escapeHtml(customer.address || "NOT PROVIDED")}<br>
+          ${escapeHtml(customer.city || "")}<br>
+          ${escapeHtml(customer.state || "")} ${customer.postalCode ? `— ${escapeHtml(customer.postalCode)}` : ""}
+        </p>
+      </div>
+    </div>
+
+    <div class="order-items-block">
+      <h4>ORDER ITEMS</h4>
+      ${items.length ? items.map(item => {
+        const image = item.image || item.imageUrl || "";
+        const qty = Math.max(1, Number(item.quantity || 1));
+        const lineTotal = Number(item.price || 0) * qty;
+        return `
+          <div class="admin-order-item">
+            <div class="admin-order-item-image" style="${image ? `background-image:url('${String(image).replace(/'/g, "%27")}')` : ""}"></div>
+            <div>
+              <div class="admin-order-item-name">${escapeHtml(item.name || item.title || "REVOLUTION PRODUCT")}</div>
+              <div class="admin-order-item-meta">${item.size ? `SIZE ${escapeHtml(item.size)} · ` : ""}QTY ${qty}</div>
+            </div>
+            <div class="admin-order-item-price">₹${lineTotal.toLocaleString("en-IN")}</div>
+          </div>
+        `;
+      }).join("") : `<div class="orders-empty-admin">NO ITEMS RECORDED.</div>`}
+      <div class="order-total-line">
+        <span>TOTAL</span>
+        <strong>₹${total.toLocaleString("en-IN")}</strong>
+      </div>
+    </div>
+
+    <div class="order-bottom-grid">
+      <div class="order-payment-block">
+        <h4>PAYMENT DETAILS</h4>
+        <p>
+          <strong>STATUS:</strong> ${escapeHtml(paymentStatus)}<br>
+          <strong>RAZORPAY ORDER:</strong> ${escapeHtml(order.razorpayOrderId || "NOT AVAILABLE")}<br>
+          <strong>PAYMENT ID:</strong> ${escapeHtml(order.razorpayPaymentId || "NOT AVAILABLE")}
+        </p>
+      </div>
+
+      <div class="order-payment-block">
+        <h4>ORDER STATUS</h4>
+        <p>
+          <strong>${escapeHtml(status)}</strong><br>
+          ${escapeHtml(orderDate(order.createdAt))}
+        </p>
+      </div>
+    </div>
+  `;
+
+  panel.hidden = false;
+}
+
+function renderOrders() {
+  const list = $("#ordersList");
+  const statusNode = $("#ordersStatus");
+  const countNode = $("#orderCount");
+  if (!list) return;
+
+  if (countNode) countNode.textContent = String(adminOrders.length);
+  if (statusNode) statusNode.textContent = `${adminOrders.length} ORDER${adminOrders.length === 1 ? "" : "S"}`;
+
+  if (!adminOrders.length) {
+    list.innerHTML = `<div class="orders-empty-admin">NO PAID ORDERS YET.</div>`;
+    const panel = $("#orderDetails");
+    if (panel) panel.hidden = true;
+    return;
+  }
+
+  list.innerHTML = adminOrders.map((order, index) => {
+    const customer = order.customer || {};
+    const status = order.status || order.paymentStatus || "PROCESSING";
+    return `
+      <button type="button" class="admin-order-card ${index === 0 ? "active" : ""}" data-order-index="${index}">
+        <div class="admin-order-top">
+          <div>
+            <div class="admin-order-number">${escapeHtml(order.orderNumber || order.id || "ORDER")}</div>
+            <div class="admin-order-customer">${escapeHtml(customer.name || order.userEmail || "CUSTOMER")}</div>
+            <div class="admin-order-date">${escapeHtml(orderDate(order.createdAt))}</div>
+          </div>
+          <div class="admin-order-total">₹${Number(order.total || 0).toLocaleString("en-IN")}</div>
+        </div>
+        <span class="admin-order-status ${orderStatusClass(status)}">${escapeHtml(status)}</span>
+      </button>
+    `;
+  }).join("");
+
+  list.querySelectorAll(".admin-order-card").forEach(button => {
+    button.addEventListener("click", () => {
+      list.querySelectorAll(".admin-order-card").forEach(item => item.classList.remove("active"));
+      button.classList.add("active");
+      renderOrderDetails(adminOrders[Number(button.dataset.orderIndex)]);
+    });
+  });
+
+  renderOrderDetails(adminOrders[0]);
+}
+
+async function loadOrders() {
+  const list = $("#ordersList");
+  const statusNode = $("#ordersStatus");
+  if (!list) return;
+
+  list.innerHTML = `<div class="empty">LOADING ORDERS...</div>`;
+  if (statusNode) statusNode.textContent = "LOADING";
+
+  try {
+    const snapshot = await getDocs(
+      query(
+        collection(db, "orders"),
+        orderBy("createdAt", "desc")
+      )
+    );
+
+    adminOrders = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    renderOrders();
+  } catch (error) {
+    console.error("LOAD ADMIN ORDERS ERROR:", error);
+    if (statusNode) statusNode.textContent = "ERROR";
+    list.innerHTML = `
+      <div class="orders-empty-admin">
+        COULD NOT LOAD ORDERS.<br><br>
+        CHECK FIREBASE RULES OR FIRESTORE CONFIGURATION.
+      </div>
+    `;
+    const panel = $("#orderDetails");
+    if (panel) panel.hidden = true;
+  }
+}
 
 /* =========================================================
    AUTH STATE
