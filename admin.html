@@ -32,6 +32,18 @@
 
   <div class="top-actions">
 
+    <button
+      id="orderNotificationBtn"
+      class="order-notification-btn"
+      type="button"
+      aria-label="Order notifications"
+      hidden
+    >
+      <span class="notification-bell" aria-hidden="true">♧</span>
+      <span class="notification-label">ORDERS</span>
+      <span id="orderNotificationBadge" class="order-notification-badge" hidden>0</span>
+    </button>
+
     <a href="index.html">
       VIEW STORE ↗
     </a>
@@ -205,6 +217,35 @@
   </section>
 
 </main>
+
+
+<!-- =======================================================
+     NEW ORDER NOTIFICATION
+======================================================== -->
+
+<div
+  id="orderNotification"
+  class="order-notification"
+  hidden
+  role="status"
+  aria-live="polite"
+>
+  <div class="order-notification-icon" aria-hidden="true">✓</div>
+
+  <div class="order-notification-content">
+    <strong>NEW ORDER RECEIVED</strong>
+    <span id="orderNotificationText">A new paid order has arrived.</span>
+  </div>
+
+  <button
+    id="orderNotificationClose"
+    class="order-notification-close"
+    type="button"
+    aria-label="Close notification"
+  >
+    ×
+  </button>
+</div>
 
 
 <!-- =======================================================

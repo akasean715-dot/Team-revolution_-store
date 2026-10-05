@@ -14,7 +14,8 @@ import {
   doc,
   serverTimestamp,
   query,
-  orderBy
+  orderBy,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -28,6 +29,9 @@ const MEGA_API_BASE =
   "https://team-revolution-store.onrender.com";
 
 let currentUser = null;
+let ordersUnsubscribe = null;
+let ordersListenerReady = false;
+let unreadOrderIds = new Set();
 
 
 /* =========================================================
@@ -58,11 +62,23 @@ function showDashboard() {
 
 function showLogin(message = "") {
 
+  if (ordersUnsubscribe) {
+    ordersUnsubscribe();
+    ordersUnsubscribe = null;
+  }
+
+  ordersListenerReady = false;
+  unreadOrderIds.clear();
+  updateOrderNotificationBadge();
+  closeOrderNotification();
+
   $("#loginView").hidden = false;
 
   $("#dashboard").hidden = true;
 
   $("#logoutBtn").hidden = true;
+
+  $("#orderNotificationBtn").hidden = true;
 
   $("#loginError").textContent = message;
 }
@@ -1234,45 +1250,187 @@ function renderOrders() {
   renderOrderDetails(adminOrders[0]);
 }
 
-async function loadOrders() {
+function updateOrderNotificationBadge() {
+  const badge = $("#orderNotificationBadge");
+  const button = $("#orderNotificationBtn");
+
+  if (!badge || !button) return;
+
+  const count = unreadOrderIds.size;
+
+  badge.textContent = String(count);
+  badge.hidden = count === 0;
+  button.hidden = !currentUser;
+}
+
+function closeOrderNotification() {
+  const notification = $("#orderNotification");
+  if (notification) notification.hidden = true;
+}
+
+function showOrderNotification(order) {
+  const notification = $("#orderNotification");
+  const text = $("#orderNotificationText");
+
+  if (!notification || !text) return;
+
+  const customer = order?.customer || {};
+  const orderNumber = order?.orderNumber || order?.id || "NEW ORDER";
+  const customerName = customer.name || order?.userEmail || "CUSTOMER";
+  const total = Number(order?.total || 0);
+
+  text.textContent =
+    `${orderNumber} · ${customerName} · ₹${total.toLocaleString("en-IN")}`;
+
+  notification.hidden = false;
+
+  window.clearTimeout(showOrderNotification.timer);
+  showOrderNotification.timer = window.setTimeout(
+    closeOrderNotification,
+    8000
+  );
+}
+
+function markOrdersAsRead() {
+  unreadOrderIds.clear();
+  updateOrderNotificationBadge();
+}
+
+function handleOrderSnapshot(snapshot) {
+  const changes = snapshot.docChanges();
+
+  adminOrders = snapshot.docs.map((item) => ({
+    id: item.id,
+    ...item.data()
+  }));
+
+  renderOrders();
+
+  /*
+   * The first snapshot is only the current state.
+   * Do not call it a "new order" notification.
+   */
+  if (!ordersListenerReady) {
+    ordersListenerReady = true;
+    return;
+  }
+
+  changes.forEach((change) => {
+    if (change.type !== "added") return;
+
+    const order = {
+      id: change.doc.id,
+      ...change.doc.data()
+    };
+
+    const status = String(
+      order.paymentStatus ||
+      order.status ||
+      ""
+    ).toUpperCase();
+
+    if (status !== "PAID") return;
+
+    unreadOrderIds.add(order.id);
+    updateOrderNotificationBadge();
+    showOrderNotification(order);
+  });
+}
+
+function loadOrders() {
   const list = $("#ordersList");
   const statusNode = $("#ordersStatus");
   if (!list) return;
 
+  /*
+   * Prevent duplicate real-time listeners if Firebase auth
+   * fires more than once while the admin page is opening.
+   */
+  if (ordersUnsubscribe) return;
+
   list.innerHTML = `<div class="empty">LOADING ORDERS...</div>`;
   if (statusNode) statusNode.textContent = "LOADING";
 
-  try {
-    const snapshot = await getDocs(
-      query(
-        collection(db, "orders"),
-        orderBy("createdAt", "desc")
-      )
-    );
+  const ordersQuery = query(
+    collection(db, "orders"),
+    orderBy("createdAt", "desc")
+  );
 
-    adminOrders = snapshot.docs.map(item => ({
-      id: item.id,
-      ...item.data()
-    }));
+  ordersUnsubscribe = onSnapshot(
+    ordersQuery,
+    (snapshot) => {
+      handleOrderSnapshot(snapshot);
+    },
+    (error) => {
+      console.error("LOAD ADMIN ORDERS ERROR:", error);
 
-    renderOrders();
-  } catch (error) {
-    console.error("LOAD ADMIN ORDERS ERROR:", error);
-    if (statusNode) statusNode.textContent = "ERROR";
-    list.innerHTML = `
-      <div class="orders-empty-admin">
-        COULD NOT LOAD ORDERS.<br><br>
-        CHECK FIREBASE RULES OR FIRESTORE CONFIGURATION.
-      </div>
-    `;
-    const panel = $("#orderDetails");
-    if (panel) panel.hidden = true;
-  }
+      if (statusNode) statusNode.textContent = "ERROR";
+
+      list.innerHTML = `
+        <div class="orders-empty-admin">
+          COULD NOT LOAD ORDERS.<br><br>
+          CHECK FIREBASE RULES OR FIRESTORE CONFIGURATION.
+        </div>
+      `;
+
+      const panel = $("#orderDetails");
+      if (panel) panel.hidden = true;
+
+      if (ordersUnsubscribe) {
+        ordersUnsubscribe();
+        ordersUnsubscribe = null;
+      }
+    }
+  );
 }
+
+/* =========================================================
+   ORDER NOTIFICATION CONTROLS
+========================================================= */
+
+$("#orderNotificationClose")?.addEventListener(
+  "click",
+  closeOrderNotification
+);
+
+$("#orderNotificationBtn")?.addEventListener(
+  "click",
+  () => {
+    markOrdersAsRead();
+
+    const firstOrder = adminOrders[0];
+    if (firstOrder) {
+      renderOrderDetails(firstOrder);
+
+      const firstCard =
+        $("#ordersList")?.querySelector(".admin-order-card");
+
+      if (firstCard) {
+        $("#ordersList")
+          .querySelectorAll(".admin-order-card")
+          .forEach((item) => item.classList.remove("active"));
+
+        firstCard.classList.add("active");
+      }
+
+      document
+        .querySelector(".orders-admin-section")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+    }
+
+    closeOrderNotification();
+  }
+);
+
 
 /* =========================================================
    AUTH STATE
 ========================================================= */
+
+
 
 onAuthStateChanged(
   auth,
