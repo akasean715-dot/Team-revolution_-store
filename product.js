@@ -6,6 +6,7 @@ import {
   where,
   doc,
   getDoc,
+  deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
@@ -189,22 +190,82 @@ async function loadReviews() {
       $("#reviewsSummaryCount").textContent = `${reviews.length} ${reviews.length === 1 ? "review" : "reviews"}`;
     }
 
-    list.innerHTML = reviews.map((review) => `
-      <article class="review-card">
-        <div class="review-card-top">
-          <strong>${escapeHtml(review.userName || "Customer")}</strong>
-          <span class="review-card-stars" aria-label="${Number(review.rating || 0)} out of 5 stars">${renderReviewStars(review.rating)}</span>
-        </div>
-        <p>${escapeHtml(review.comment || "")}</p>
-        <time>${escapeHtml(formatReviewDate(review.createdAt))}</time>
-      </article>
-    `).join("");
+    list.innerHTML = reviews.map((review) => {
+      const canDelete = Boolean(
+        currentUser &&
+        review.userId &&
+        currentUser.uid === review.userId
+      );
+
+      return `
+        <article class="review-card">
+          <div class="review-card-top">
+            <strong>${escapeHtml(review.userName || "Customer")}</strong>
+            <span class="review-card-stars" aria-label="${Number(review.rating || 0)} out of 5 stars">${renderReviewStars(review.rating)}</span>
+          </div>
+          <p>${escapeHtml(review.comment || "")}</p>
+          <div class="review-card-bottom">
+            <time>${escapeHtml(formatReviewDate(review.createdAt))}</time>
+            ${canDelete ? `
+              <button
+                type="button"
+                class="review-delete"
+                data-review-id="${escapeHtml(review.id)}"
+                aria-label="Delete your review"
+              >
+                DELETE REVIEW
+              </button>
+            ` : ""}
+          </div>
+        </article>
+      `;
+    }).join("");
   } catch (error) {
     console.error("Review loading error:", error);
     if (summary) summary.hidden = true;
     list.innerHTML = `<p id="reviewsMessage">Reviews could not be loaded right now.</p>`;
   }
 }
+
+async function deleteReview(reviewId, button) {
+  const status = $("#reviewFormStatus");
+
+  if (!currentUser || !reviewId) {
+    if (status) status.textContent = "Please sign in before deleting a review.";
+    return;
+  }
+
+  const confirmed = window.confirm("Delete your review? This cannot be undone.");
+  if (!confirmed) return;
+
+  try {
+    if (button) {
+      button.disabled = true;
+      button.textContent = "DELETING...";
+    }
+
+    await deleteDoc(doc(db, "reviews", reviewId));
+
+    if (status) status.textContent = "Review deleted successfully.";
+    await loadReviews();
+  } catch (error) {
+    console.error("Review deletion error:", error);
+    if (status) status.textContent = "Could not delete your review. Please try again.";
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "DELETE REVIEW";
+    }
+  }
+}
+
+$("#reviewsList")?.addEventListener("click", (event) => {
+  const button = event.target.closest(".review-delete");
+  if (!button) return;
+
+  deleteReview(button.dataset.reviewId, button);
+});
+
 
 async function submitReview() {
   const productId = getProductId();
@@ -267,9 +328,10 @@ $("#submitReview")?.addEventListener("click", submitReview);
    AUTH STATE
 ========================================================= */
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   updateReviewAuthUI();
+  await loadReviews();
 });
 
 
