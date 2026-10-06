@@ -444,9 +444,34 @@
 
           <h3>REVIEWS</h3>
 
-          <p id="reviewsMessage">
-            No reviews yet.
-          </p>
+          <div class="reviews-summary" id="reviewsSummary" hidden>
+            <div class="reviews-average" id="reviewsAverage">0.0</div>
+            <div>
+              <div class="reviews-stars" id="reviewsAverageStars" aria-label="Average rating"></div>
+              <div class="reviews-count" id="reviewsSummaryCount">0 reviews</div>
+            </div>
+          </div>
+
+          <div class="review-form" id="reviewForm">
+            <div class="review-form-title">WRITE A REVIEW</div>
+            <p class="review-signin-message" id="reviewSigninMessage" hidden>Please sign in to leave a review.</p>
+            <label class="review-label">YOUR RATING</label>
+            <div class="review-star-picker" id="reviewStarPicker" role="radiogroup" aria-label="Choose a rating">
+              <button type="button" class="review-star" data-rating="1" aria-label="1 star">☆</button>
+              <button type="button" class="review-star" data-rating="2" aria-label="2 stars">☆</button>
+              <button type="button" class="review-star" data-rating="3" aria-label="3 stars">☆</button>
+              <button type="button" class="review-star" data-rating="4" aria-label="4 stars">☆</button>
+              <button type="button" class="review-star" data-rating="5" aria-label="5 stars">☆</button>
+            </div>
+            <label class="review-label" for="reviewComment">YOUR REVIEW</label>
+            <textarea id="reviewComment" class="review-textarea" maxlength="1000" rows="5" placeholder="Write your experience..."></textarea>
+            <button type="button" id="submitReview" class="review-submit">SUBMIT REVIEW</button>
+            <p class="review-form-status" id="reviewFormStatus" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="reviews-list" id="reviewsList">
+            <p id="reviewsMessage">No reviews yet.</p>
+          </div>
 
         </div>
 

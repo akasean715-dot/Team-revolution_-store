@@ -1,8 +1,12 @@
 import {
   collection,
   getDocs,
+  addDoc,
+  query,
+  where,
   doc,
-  getDoc
+  getDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 import { db, auth } from "./firebase.js";
@@ -119,6 +123,145 @@ let relatedProducts = [];
 
 let relatedStart = 0;
 
+let selectedReviewRating = 0;
+
+
+/* REVIEWS */
+
+function renderReviewStars(rating) {
+  const value = Math.max(0, Math.min(5, Number(rating) || 0));
+  return Array.from({ length: 5 }, (_, index) => index < Math.round(value) ? "★" : "☆").join("");
+}
+
+function formatReviewDate(value) {
+  try {
+    const date = value?.toDate ? value.toDate() : new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  } catch { return ""; }
+}
+
+function updateReviewPicker() {
+  document.querySelectorAll(".review-star").forEach((button) => {
+    const rating = Number(button.dataset.rating);
+    button.textContent = rating <= selectedReviewRating ? "★" : "☆";
+    button.classList.toggle("selected", rating <= selectedReviewRating);
+  });
+}
+
+function updateReviewAuthUI() {
+  const signedIn = Boolean(currentUser);
+  const message = $("#reviewSigninMessage");
+  const submit = $("#submitReview");
+  const textarea = $("#reviewComment");
+  const picker = $("#reviewStarPicker");
+  if (message) message.hidden = signedIn;
+  if (submit) submit.disabled = !signedIn;
+  if (textarea) textarea.disabled = !signedIn;
+  if (picker) picker.classList.toggle("disabled", !signedIn);
+}
+
+async function loadReviews() {
+  const productId = getProductId();
+  const list = $("#reviewsList");
+  const summary = $("#reviewsSummary");
+  if (!productId || !list) return;
+
+  try {
+    const snapshot = await getDocs(query(collection(db, "reviews"), where("productId", "==", productId)));
+    const reviews = snapshot.docs.map((reviewDoc) => ({ id: reviewDoc.id, ...reviewDoc.data() })).sort((a, b) => {
+      const aTime = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt || 0).getTime();
+      const bTime = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt || 0).getTime();
+      return bTime - aTime;
+    });
+
+    if (!reviews.length) {
+      if (summary) summary.hidden = true;
+      list.innerHTML = `<p id="reviewsMessage">No reviews yet. Be the first to review this product.</p>`;
+      return;
+    }
+
+    const average = reviews.reduce((total, review) => total + Number(review.rating || 0), 0) / reviews.length;
+    if (summary) {
+      summary.hidden = false;
+      $("#reviewsAverage").textContent = average.toFixed(1);
+      $("#reviewsAverageStars").textContent = renderReviewStars(average);
+      $("#reviewsSummaryCount").textContent = `${reviews.length} ${reviews.length === 1 ? "review" : "reviews"}`;
+    }
+
+    list.innerHTML = reviews.map((review) => `
+      <article class="review-card">
+        <div class="review-card-top">
+          <strong>${escapeHtml(review.userName || "Customer")}</strong>
+          <span class="review-card-stars" aria-label="${Number(review.rating || 0)} out of 5 stars">${renderReviewStars(review.rating)}</span>
+        </div>
+        <p>${escapeHtml(review.comment || "")}</p>
+        <time>${escapeHtml(formatReviewDate(review.createdAt))}</time>
+      </article>
+    `).join("");
+  } catch (error) {
+    console.error("Review loading error:", error);
+    if (summary) summary.hidden = true;
+    list.innerHTML = `<p id="reviewsMessage">Reviews could not be loaded right now.</p>`;
+  }
+}
+
+async function submitReview() {
+  const productId = getProductId();
+  const commentInput = $("#reviewComment");
+  const status = $("#reviewFormStatus");
+  const submitButton = $("#submitReview");
+
+  if (!currentUser) {
+    if (status) status.textContent = "Please sign in before submitting a review.";
+    return;
+  }
+  const comment = commentInput?.value.trim() || "";
+  if (!selectedReviewRating) {
+    if (status) status.textContent = "Please choose a star rating.";
+    return;
+  }
+  if (comment.length < 3) {
+    if (status) status.textContent = "Please write at least a few words.";
+    return;
+  }
+
+  try {
+    if (submitButton) { submitButton.disabled = true; submitButton.textContent = "SUBMITTING..."; }
+    await addDoc(collection(db, "reviews"), {
+      productId,
+      userId: currentUser.uid,
+      userName: currentUser.displayName || currentUser.email?.split("@")[0] || "Customer",
+      userEmail: currentUser.email || "",
+      rating: selectedReviewRating,
+      comment,
+      createdAt: serverTimestamp()
+    });
+    commentInput.value = "";
+    selectedReviewRating = 0;
+    updateReviewPicker();
+    if (status) status.textContent = "Review submitted successfully.";
+    await loadReviews();
+  } catch (error) {
+    console.error("Review submission error:", error);
+    if (status) status.textContent = "Could not submit your review. Please try again.";
+  } finally {
+    if (submitButton) { submitButton.disabled = !currentUser; submitButton.textContent = "SUBMIT REVIEW"; }
+  }
+}
+
+document.querySelectorAll(".review-star").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!currentUser) return;
+    selectedReviewRating = Number(button.dataset.rating);
+    updateReviewPicker();
+    const status = $("#reviewFormStatus");
+    if (status) status.textContent = "";
+  });
+});
+
+$("#submitReview")?.addEventListener("click", submitReview);
+
 
 /* =========================================================
    AUTH STATE
@@ -126,6 +269,7 @@ let relatedStart = 0;
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;
+  updateReviewAuthUI();
 });
 
 
@@ -163,6 +307,9 @@ async function loadProduct() {
     };
 
     renderProduct();
+
+    updateReviewAuthUI();
+    await loadReviews();
 
     await loadRelatedProducts();
 

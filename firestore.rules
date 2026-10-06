@@ -28,6 +28,15 @@ service cloud.firestore {
       allow read, write: if admin();
     }
 
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid
+        && request.resource.data.productId is string && request.resource.data.productId.size() > 0
+        && request.resource.data.rating is int && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+        && request.resource.data.comment is string && request.resource.data.comment.size() >= 3 && request.resource.data.comment.size() <= 1000;
+      allow update, delete: if admin() || (signedIn() && resource.data.userId == request.auth.uid);
+    }
+
     match /newsletter/{emailId} {
       allow create: if true;
       allow read, update, delete: if admin();
