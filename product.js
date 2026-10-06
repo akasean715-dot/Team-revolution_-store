@@ -227,6 +227,84 @@ async function loadReviews() {
   }
 }
 
+function showDeleteReviewModal() {
+  return new Promise((resolve) => {
+    let modal = document.getElementById("reviewDeleteModal");
+
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "reviewDeleteModal";
+      modal.className = "review-delete-modal";
+      modal.innerHTML = `
+        <div class="review-delete-backdrop" data-review-delete-cancel></div>
+
+        <div
+          class="review-delete-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="reviewDeleteTitle"
+        >
+          <button
+            type="button"
+            class="review-delete-close"
+            data-review-delete-cancel
+            aria-label="Close"
+          >×</button>
+
+          <div class="review-delete-icon" aria-hidden="true">!</div>
+
+          <h3 id="reviewDeleteTitle">DELETE REVIEW?</h3>
+
+          <p>
+            Are you sure you want to delete your review?
+            <span>This action cannot be undone.</span>
+          </p>
+
+          <div class="review-delete-actions">
+            <button type="button" class="review-delete-cancel" data-review-delete-cancel>
+              CANCEL
+            </button>
+            <button type="button" class="review-delete-confirm" data-review-delete-confirm>
+              DELETE REVIEW
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    modal.hidden = false;
+    document.body.classList.add("review-delete-modal-open");
+
+    const confirmButton = modal.querySelector("[data-review-delete-confirm]");
+    const cancelButtons = modal.querySelectorAll("[data-review-delete-cancel]");
+
+    const finish = (confirmed) => {
+      modal.hidden = true;
+      document.body.classList.remove("review-delete-modal-open");
+
+      confirmButton?.removeEventListener("click", onConfirm);
+      cancelButtons.forEach((item) => item.removeEventListener("click", onCancel));
+      document.removeEventListener("keydown", onKeyDown);
+
+      resolve(confirmed);
+    };
+
+    const onConfirm = () => finish(true);
+    const onCancel = () => finish(false);
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") finish(false);
+    };
+
+    confirmButton?.addEventListener("click", onConfirm);
+    cancelButtons.forEach((item) => item.addEventListener("click", onCancel));
+    document.addEventListener("keydown", onKeyDown);
+
+    requestAnimationFrame(() => modal.classList.add("is-visible"));
+  });
+}
+
 async function deleteReview(reviewId, button) {
   const status = $("#reviewFormStatus");
 
@@ -235,7 +313,7 @@ async function deleteReview(reviewId, button) {
     return;
   }
 
-  const confirmed = window.confirm("Delete your review? This cannot be undone.");
+  const confirmed = await showDeleteReviewModal();
   if (!confirmed) return;
 
   try {
